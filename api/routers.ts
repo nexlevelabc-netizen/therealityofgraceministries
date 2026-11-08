@@ -30,6 +30,18 @@ export const eventsRouter = createRouter({
     }),
 });
 
+/* ---------- live stream configuration ---------- */
+
+export const streamRouter = createRouter({
+  config: publicQuery.query(() => {
+    // When the ministry runs its own streaming infrastructure (OBS into an
+    // HLS origin such as Mux, Cloudflare Stream or a self hosted server),
+    // STREAM_HLS_URL carries the playback URL and the site plays it directly.
+    const hlsUrl = process.env.STREAM_HLS_URL?.trim() || null;
+    return { hlsUrl };
+  }),
+});
+
 /* ---------- contact and visit forms ---------- */
 
 export const contactRouter = createRouter({

@@ -70,12 +70,15 @@ export const en = {
       "One family across nations and languages, gathering in person and online, learning to live inside the finished work of Christ.",
     heroVisit: "Plan your first visit",
     heroLive: "Watch this Sunday live",
+    heroSunday: "Sunday service · 10:00",
     whyKicker: "Why we exist",
     statementA: "We exist so that ordinary people can meet an extraordinary God, in a language they understand, inside",
     statementEm: "a family that stays",
     storyLink: "The story of the house",
     doorsKicker: "Life together",
     doorsTitle: "Three doors into the house",
+    doorsPrev: "Previous",
+    doorsNext: "Next",
     doorsIntro:
       "There is no wrong way in. Come as you are, bring your questions, and grow at the pace grace sets for you.",
     door1Tag: "01 · Gather",
@@ -229,6 +232,9 @@ export const en = {
     captionNote:
       "Captions open automatically in your chosen language once the stream begins. Switch language at any time and the player will reload with it.",
     playerTitle: "The Reality of Grace Ministries live stream",
+    ownStreamBadge: "Our own broadcast",
+    ownStreamNote:
+      "This service is broadcast directly from the ministry's own platform, with no third party in between. Caption translation remains available on the YouTube simulcast.",
     archiveKicker: "Missed it live",
     archiveTitle: "The archive never closes",
     archiveBody:

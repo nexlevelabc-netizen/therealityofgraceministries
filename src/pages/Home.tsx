@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { MaskedLines } from "@/components/PageHero";
 import { trpc } from "@/providers/trpc";
@@ -37,28 +38,23 @@ export default function Home() {
         </div>
         <div className="hero__veil" aria-hidden="true" />
         <div className="hero__inner">
-          <div className="hero__row">
-            <h1 className="display-hero hero__title">
-              <MaskedLines
-                lines={t.home.heroTitle.map((p, i) =>
-                  p.i ? <em key={i}>{p.t}</em> : <span key={i}>{p.t}</span>
-                )}
-              />
-            </h1>
-          </div>
-          <div className="hero__row hero__row--offset">
-            <div className="hero__meta">
-              <span className="minititle">{t.home.heroKicker}</span>
-              <p>{t.home.heroMeta}</p>
-            </div>
-            <div className="hero__actions">
-              <Link to="/visit" className="btn btn--on-dark">
-                {t.home.heroVisit}
-              </Link>
-              <Link to="/live" className="btn btn--ghost-dark">
-                {t.home.heroLive}
-              </Link>
-            </div>
+          <h1 className="display-hero hero__title">
+            <MaskedLines
+              lines={t.home.heroTitle.map((p, i) =>
+                p.i ? <em key={i}>{p.t}</em> : <span key={i}>{p.t}</span>
+              )}
+            />
+          </h1>
+          <div className="hero__actions">
+            <Link to="/visit" className="btn btn--on-dark">
+              {t.home.heroVisit}
+            </Link>
+            <Link to="/live" className="btn btn--ghost-dark">
+              {t.home.heroLive}
+            </Link>
+            <Link to="/gatherings" className="btn btn--ghost-dark">
+              {t.home.heroSunday}
+            </Link>
           </div>
         </div>
       </section>
@@ -97,53 +93,36 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid-3">
-            <article data-reveal>
-              <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/hero-worship.jpg" alt={t.home.door1Alt} loading="lazy" />
-              </div>
-              <p className="figure-caption">{t.home.door1Tag}</p>
-              <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                {t.home.door1Title}
-              </h3>
-              <p className="body-copy">{t.home.door1Body}</p>
-              <p style={{ marginTop: "1.2rem" }}>
-                <Link to="/gatherings" className="tlink">
-                  {t.home.door1Link}
-                </Link>
-              </p>
-            </article>
-            <article data-reveal style={{ ["--reveal-delay" as string]: "0.12s" }}>
-              <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/hero-word.jpg" alt={t.home.door2Alt} loading="lazy" />
-              </div>
-              <p className="figure-caption">{t.home.door2Tag}</p>
-              <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                {t.home.door2Title}
-              </h3>
-              <p className="body-copy">{t.home.door2Body}</p>
-              <p style={{ marginTop: "1.2rem" }}>
-                <Link to="/believe" className="tlink">
-                  {t.home.door2Link}
-                </Link>
-              </p>
-            </article>
-            <article data-reveal style={{ ["--reveal-delay" as string]: "0.24s" }}>
-              <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/community.jpg" alt={t.home.door3Alt} loading="lazy" />
-              </div>
-              <p className="figure-caption">{t.home.door3Tag}</p>
-              <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                {t.home.door3Title}
-              </h3>
-              <p className="body-copy">{t.home.door3Body}</p>
-              <p style={{ marginTop: "1.2rem" }}>
-                <Link to="/contact" className="tlink">
-                  {t.home.door3Link}
-                </Link>
-              </p>
-            </article>
-          </div>
+          <DoorsCarousel
+            slides={[
+              {
+                img: "/img/hero-worship.jpg",
+                alt: t.home.door1Alt,
+                tag: t.home.door1Tag,
+                title: t.home.door1Title,
+                body: t.home.door1Body,
+                link: { to: "/gatherings", label: t.home.door1Link },
+              },
+              {
+                img: "/img/hero-word.jpg",
+                alt: t.home.door2Alt,
+                tag: t.home.door2Tag,
+                title: t.home.door2Title,
+                body: t.home.door2Body,
+                link: { to: "/believe", label: t.home.door2Link },
+              },
+              {
+                img: "/img/community.jpg",
+                alt: t.home.door3Alt,
+                tag: t.home.door3Tag,
+                title: t.home.door3Title,
+                body: t.home.door3Body,
+                link: { to: "/contact", label: t.home.door3Link },
+              },
+            ]}
+            prevLabel={t.home.doorsPrev}
+            nextLabel={t.home.doorsNext}
+          />
         </div>
       </section>
 
@@ -295,5 +274,95 @@ export default function Home() {
         </div>
       </section>
     </>
+  );
+}
+
+type DoorSlide = {
+  img: string;
+  alt: string;
+  tag: string;
+  title: string;
+  body: string;
+  link: { to: string; label: string };
+};
+
+function DoorsCarousel({
+  slides,
+  prevLabel,
+  nextLabel,
+}: {
+  slides: DoorSlide[];
+  prevLabel: string;
+  nextLabel: string;
+}) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const dirRef = useRef(1);
+
+  const go = (next: number) => {
+    setIndex(((next % slides.length) + slides.length) % slides.length);
+  };
+
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setInterval(() => {
+      setIndex((i) => {
+        const n = i + dirRef.current;
+        if (n >= slides.length || n < 0) dirRef.current = -dirRef.current;
+        return ((i + dirRef.current) % slides.length + slides.length) % slides.length;
+      });
+    }, 6500);
+    return () => window.clearInterval(id);
+  }, [paused, slides.length]);
+
+  const isRtl = typeof document !== "undefined" && document.documentElement.dir === "rtl";
+
+  return (
+    <div
+      className="doors-carousel"
+      data-reveal
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      <div
+        className="doors-track"
+        style={{ transform: `translateX(${(isRtl ? 1 : -1) * index * 100}%)` }}
+      >
+        {slides.map((s, i) => (
+          <div className="doors-slide" key={s.tag} aria-hidden={i !== index} dir={isRtl ? "rtl" : "ltr"}>
+            <div className="figure">
+              <img src={s.img} alt={s.alt} loading={i === 0 ? "eager" : "lazy"} />
+            </div>
+            <div>
+              <p className="figure-caption">{s.tag}</p>
+              <h3 className="display-2" style={{ margin: "0.6rem 0 1rem", fontSize: "clamp(1.8rem, 3.4vw, 3rem)" }}>
+                {s.title}
+              </h3>
+              <p className="body-copy" style={{ maxWidth: "46ch" }}>
+                {s.body}
+              </p>
+              <p style={{ marginTop: "1.6rem" }}>
+                <Link to={s.link.to} className="tlink" tabIndex={i === index ? 0 : -1}>
+                  {s.link.label}
+                </Link>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="doors-controls">
+        <button type="button" className="tlink" onClick={() => go(index - 1)} aria-label={prevLabel}>
+          {prevLabel}
+        </button>
+        <span className="doors-index" aria-live="polite">
+          {String(index + 1).padStart(2, "0")} · {String(slides.length).padStart(2, "0")}
+        </span>
+        <button type="button" className="tlink" onClick={() => go(index + 1)} aria-label={nextLabel}>
+          {nextLabel}
+        </button>
+      </div>
+    </div>
   );
 }
