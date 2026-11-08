@@ -37,6 +37,14 @@ const TOPIC_GUIDANCE: Record<string, string> = {
   newhere: "The person is new and curious about the church. Welcome them warmly and explain they can visit any Sunday or watch online.",
 };
 
+chatRoutes.get("/status", (c) => {
+  const available = Boolean(
+    (process.env.KIMI_AGENTGW_BASE_URL && process.env.KIMI_AGENTGW_API_KEY) ||
+      (process.env.CHAT_AI_BASE_URL && process.env.CHAT_AI_API_KEY && process.env.CHAT_AI_MODEL)
+  );
+  return c.json({ available });
+});
+
 chatRoutes.post("/", async (c) => {
   let payload: {
     language?: string;
