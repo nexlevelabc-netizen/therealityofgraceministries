@@ -433,6 +433,7 @@ export const en = {
     intro: "Sign in to see your giving history and the requests you have entrusted to us.",
     button: "Sign in with Kimi",
     note: "Sign in is provided by Kimi. We only receive your name and email, and we use them solely to keep your records together.",
+    unavailable: "Member sign in is not enabled on this deployment yet. Please contact the church office and we will help you directly."
   },
   account: {
     kicker: "Members",

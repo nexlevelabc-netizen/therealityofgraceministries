@@ -413,7 +413,8 @@ const dict: Dict = {
     "titleEm": "dans la maison",
     "intro": "Connectez-vous pour voir votre historique de dons et les demandes que vous nous avez confiées.",
     "button": "Se connecter avec Kimi",
-    "note": "La connexion est fournie par Kimi. Nous ne recevons que votre nom et votre e-mail, et nous les utilisons uniquement pour tenir vos dossiers ensemble."
+    "note": "La connexion est fournie par Kimi. Nous ne recevons que votre nom et votre e-mail, et nous les utilisons uniquement pour tenir vos dossiers ensemble.",
+    "unavailable": "La connexion des membres n'est pas encore activée sur cette version du site. Contactez-nous et nous vous aiderons directement."
   },
   "account": {
     "kicker": "Membres",

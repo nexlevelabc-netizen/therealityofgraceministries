@@ -79,6 +79,7 @@ app.post(
   handleClientLog,
 );
 app.route("/api/chat", chatRoutes);
+app.get("/api/health", (c) => c.json({ ok: true }));
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
 // Unhandled request errors must reach /tmp/kimi-logs/app.log, not just stdout:
@@ -101,6 +102,18 @@ if (env.isProduction) {
   const { serve } = await import("@hono/node-server");
   const { serveStaticFiles } = await import("./lib/vite");
   serveStaticFiles(app);
+
+  // Bring a fresh database up to date (migrations + events seed). Failure here
+  // must not take the site down: pages that need the database will surface
+  // their own errors, and the log line below says exactly what happened.
+  try {
+    const { runBootstrap } = await import("./lib/bootstrap");
+    await runBootstrap();
+  } catch (err) {
+    log.error("bootstrap failed", {
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
 
   const port = parseInt(process.env.PORT || "3000");
   serve({ fetch: app.fetch, port }, () => {

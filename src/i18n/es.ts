@@ -413,7 +413,8 @@ const dict: Dict = {
     "titleEm": "en la casa",
     "intro": "Inicia sesión para ver tu historial de donativos y las peticiones que nos has confiado.",
     "button": "Iniciar sesión con Kimi",
-    "note": "El inicio de sesión lo proporciona Kimi. Solo recibimos tu nombre y tu correo, y los utilizamos exclusivamente para mantener tus registros unidos."
+    "note": "El inicio de sesión lo proporciona Kimi. Solo recibimos tu nombre y tu correo, y los utilizamos exclusivamente para mantener tus registros unidos.",
+    "unavailable": "El inicio de sesión de miembros aún no está habilitado en esta versión del sitio. Escríbenos y te ayudaremos directamente."
   },
   "account": {
     "kicker": "Miembros",

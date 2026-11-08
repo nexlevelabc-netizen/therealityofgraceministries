@@ -1,0 +1,60 @@
+# Render blueprint for The Reality of Grace Ministries Int'l website.
+#
+# What this creates: one web service that builds the React frontend and the
+# Node (Hono + tRPC) backend, then serves both from a single process.
+#
+# What you still need to add yourself (Render does not host MySQL):
+#   A MySQL database. Any provider works, for example the free tiers of
+#   Aiven, PlanetScale or Railway. Then set DATABASE_URL below in the
+#   Render dashboard (Environment tab) as
+#   mysql://USER:PASSWORD@HOST:PORT/DATABASE
+# The server applies the schema migrations and seeds the events calendar
+# automatically on first boot, so no manual database steps are needed.
+#
+# Optional env vars (dashboard, Environment tab):
+#   STRIPE_SECRET_KEY   enables live card giving; without it the give page
+#                       falls back to the bank transfer pledge form
+#   STREAM_HLS_URL      the .m3u8 playback URL from Mux / Cloudflare Stream /
+#                       api.video; when set, the live page broadcasts your own
+#                       stream instead of the YouTube simulcast
+#   CHAT_AI_BASE_URL, CHAT_AI_API_KEY, CHAT_AI_MODEL
+#                       any OpenAI-compatible chat endpoint for the Grace
+#                       Companion widget, e.g. Moonshot https://api.moonshot.ai/v1
+#   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM
+#                       form notifications to the ministry inbox
+#   SITE_ORIGIN         e.g. https://therealityofgraceministries.onrender.com
+#                       (used for Stripe redirect URLs)
+
+services:
+  - type: web
+    name: therealityofgraceministries
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STREAM_HLS_URL
+        sync: false
+      - key: CHAT_AI_BASE_URL
+        sync: false
+      - key: CHAT_AI_API_KEY
+        sync: false
+      - key: CHAT_AI_MODEL
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      - key: SITE_ORIGIN
+        sync: false

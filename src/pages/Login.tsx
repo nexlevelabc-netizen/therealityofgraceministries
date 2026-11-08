@@ -1,6 +1,8 @@
 import { PageHero } from "@/components/PageHero";
 import { useLang } from "@/i18n";
 
+const OAUTH_ENABLED = Boolean(import.meta.env.VITE_KIMI_AUTH_URL);
+
 function getOAuthUrl() {
   const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
   const appID = import.meta.env.VITE_APP_ID;
@@ -35,19 +37,27 @@ export default function Login() {
       />
       <section className="section--tight">
         <div className="shell--narrow" style={{ marginInline: "auto", textAlign: "center" }}>
-          <button
-            type="button"
-            className="btn"
-            style={{ minWidth: "16rem" }}
-            onClick={() => {
-              window.location.href = getOAuthUrl();
-            }}
-          >
-            {t.login.button}
-          </button>
-          <p className="body-copy" style={{ margin: "1.4rem auto 0", maxWidth: "40ch", fontSize: "0.92rem" }}>
-            {t.login.note}
-          </p>
+          {OAUTH_ENABLED ? (
+            <>
+              <button
+                type="button"
+                className="btn"
+                style={{ minWidth: "16rem" }}
+                onClick={() => {
+                  window.location.href = getOAuthUrl();
+                }}
+              >
+                {t.login.button}
+              </button>
+              <p className="body-copy" style={{ margin: "1.4rem auto 0", maxWidth: "40ch", fontSize: "0.92rem" }}>
+                {t.login.note}
+              </p>
+            </>
+          ) : (
+            <p className="body-copy" style={{ margin: "0 auto", maxWidth: "44ch" }}>
+              {t.login.unavailable}
+            </p>
+          )}
         </div>
       </section>
     </>

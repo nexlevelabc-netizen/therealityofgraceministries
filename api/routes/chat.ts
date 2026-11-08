@@ -72,15 +72,41 @@ chatRoutes.post("/", async (c) => {
   }
 
   try {
-    const { defaultModelId } = await listModels();
-    const kimiGw = createOpenAICompatible({
-      name: "kimi-gw",
-      baseURL: process.env.KIMI_AGENTGW_BASE_URL!,
-      apiKey: process.env.KIMI_AGENTGW_API_KEY!,
-    });
+    // Two provider paths, same OpenAI-compatible wire format:
+    //   1. Kimi platform gateway (KIMI_AGENTGW_*) — injected automatically when
+    //      the site runs on Kimi; model id is discovered from the gateway.
+    //   2. Any OpenAI-compatible endpoint (CHAT_AI_BASE_URL / CHAT_AI_API_KEY /
+    //      CHAT_AI_MODEL) — for self hosted deployments such as Render, e.g.
+    //      Moonshot (https://api.moonshot.ai/v1) or OpenAI.
+    const gatewayBase = process.env.KIMI_AGENTGW_BASE_URL;
+    const gatewayKey = process.env.KIMI_AGENTGW_API_KEY;
+    const customBase = process.env.CHAT_AI_BASE_URL;
+    const customKey = process.env.CHAT_AI_API_KEY;
+    const customModel = process.env.CHAT_AI_MODEL;
+
+    let model;
+    if (gatewayBase && gatewayKey) {
+      const { defaultModelId } = await listModels();
+      const kimiGw = createOpenAICompatible({
+        name: "kimi-gw",
+        baseURL: gatewayBase,
+        apiKey: gatewayKey,
+      });
+      model = kimiGw(defaultModelId);
+    } else if (customBase && customKey && customModel) {
+      const custom = createOpenAICompatible({
+        name: "chat-ai",
+        baseURL: customBase,
+        apiKey: customKey,
+      });
+      model = custom(customModel);
+    } else {
+      log.warn("chat unavailable: no AI provider configured");
+      return c.json({ error: "The companion is unavailable right now" }, 503);
+    }
 
     const result = streamText({
-      model: kimiGw(defaultModelId),
+      model,
       system: `${SYSTEM}\n\nThe person has chosen ${language}. Reply only in ${language}.${topicGuidance ? `\n\n${topicGuidance}` : ""}`,
       messages,
       providerOptions: { "kimi-gw": { max_completion_tokens: 700 } },

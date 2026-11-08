@@ -413,7 +413,8 @@ const dict: Dict = {
     "titleEm": "in casa",
     "intro": "Accedi per vedere la tua storia delle donazioni e le richieste che ci hai affidato.",
     "button": "Accedi con Kimi",
-    "note": "L'accesso è fornito da Kimi. Riceviamo solo il tuo nome e la tua email, e li usiamo unicamente per tenere insieme i tuoi dati."
+    "note": "L'accesso è fornito da Kimi. Riceviamo solo il tuo nome e la tua email, e li usiamo unicamente per tenere insieme i tuoi dati.",
+    "unavailable": "L'accesso riservato ai membri non è ancora attivo su questa versione del sito. Contattaci e ti aiuteremo direttamente."
   },
   "account": {
     "kicker": "Area riservata",

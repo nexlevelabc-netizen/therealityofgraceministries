@@ -413,7 +413,8 @@ const dict: Dict = {
     "titleEm": "nesta casa",
     "intro": "Inicie sessão para ver o seu histórico de ofertas e os pedidos que nos confiou.",
     "button": "Iniciar sessão com Kimi",
-    "note": "O início de sessão é fornecido pela Kimi. Recebemos apenas o seu nome e e-mail, e usamo-los unicamente para manter os seus registos juntos."
+    "note": "O início de sessão é fornecido pela Kimi. Recebemos apenas o seu nome e e-mail, e usamo-los unicamente para manter os seus registos juntos.",
+    "unavailable": "O acesso de membros ainda não está ativo nesta versão do site. Fale conosco e ajudaremos diretamente."
   },
   "account": {
     "kicker": "Membros",
