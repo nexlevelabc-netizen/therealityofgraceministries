@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# The Reality of Grace Ministries Int'l
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Full stack church website: React 19 + TypeScript + Vite frontend, Hono + tRPC +
+Drizzle (MySQL) backend. Features Stripe and bank transfer giving, live
+streaming (own HLS broadcast or YouTube simulcast with caption translation),
+a multilingual pastoral chatbot (English, Spanish, Italian, Portuguese,
+Arabic, Chinese, French), site wide language switching, events calendar,
+and automated form delivery to the ministry inbox.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+cp .env.example .env   # fill in DATABASE_URL at minimum
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Deploying to Render
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The repo includes a `render.yaml` blueprint.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. In the Render dashboard: New → Blueprint, connect this repository.
+   Render reads `render.yaml` and creates the web service.
+2. Render does not host MySQL, so create a MySQL database with any provider
+   (the free tiers of Aiven, PlanetScale or Railway all work) and copy its
+   connection string.
+3. In the Render service → Environment, set:
+   - `DATABASE_URL` (required) — `mysql://user:password@host:3306/dbname`
+   - `STRIPE_SECRET_KEY` — enables live card giving (optional; without it the
+     give page uses the bank transfer pledge form)
+   - `SITE_ORIGIN` — your Render URL, used for Stripe redirect links
+   - `STREAM_HLS_URL` — your .m3u8 playback URL from Mux, Cloudflare Stream
+     or api.video for the ministry's own broadcast (optional)
+   - `CHAT_AI_BASE_URL`, `CHAT_AI_API_KEY`, `CHAT_AI_MODEL` — any
+     OpenAI-compatible chat endpoint for the Grace Companion widget,
+     e.g. Moonshot at `https://api.moonshot.ai/v1` (optional)
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` — form notifications
+     to info@therealityofgraceministries.com (optional)
+4. Deploy. On first boot the server applies the database migrations and
+   seeds the events calendar automatically. No manual database steps.
+
+Health check endpoint: `/api/health`.
+
+## Member sign in
+
+Sign in with Kimi works only when the site runs on the Kimi platform. On
+Render or any other host the sign in page shows a graceful notice instead,
+and all other features work normally.
+
+## Useful scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Local dev server |
+| `npm run build` | Production build (frontend + backend bundle) |
+| `npm start` | Run the production server |
+| `npm run check` | TypeScript check |
+| `npm run db:seed` | Reseed the events calendar |
