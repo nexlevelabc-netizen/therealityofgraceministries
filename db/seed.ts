@@ -1,13 +1,16 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/mysql2";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import { events } from "./schema";
 import { buildEventSeeds } from "./seed-data";
 
 async function main() {
-  const db = drizzle(process.env.DATABASE_URL!, { mode: "planetscale" });
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL! });
+  const db = drizzle(pool);
   await db.delete(events);
   await db.insert(events).values(buildEventSeeds());
   console.log("seeded events");
+  await pool.end();
   process.exit(0);
 }
 

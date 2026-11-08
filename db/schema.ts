@@ -1,22 +1,31 @@
 import {
-  mysqlTable,
-  mysqlEnum,
+  pgTable,
+  pgEnum,
   serial,
   varchar,
   text,
   timestamp,
   bigint,
-  int,
+  integer,
   boolean,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
-export const users = mysqlTable("users", {
+export const userRole = pgEnum("user_role", ["user", "admin"]);
+export const eventFrequency = pgEnum("event_frequency", ["daily", "weekly", "monthly"]);
+export const contributionStatus = pgEnum("contribution_status", [
+  "pledged",
+  "checkout_started",
+  "paid",
+  "failed",
+]);
+
+export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   unionId: varchar("unionId", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 320 }),
   avatar: text("avatar"),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: userRole("role").default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt")
     .defaultNow()
@@ -28,15 +37,12 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// Note: FK columns referencing a serial() PK must use:
-//   bigint("columnName", { mode: "number", unsigned: true }).notNull()
-
-export const events = mysqlTable("events", {
+export const events = pgTable("events", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   startsAt: timestamp("startsAt").notNull(),
-  frequency: mysqlEnum("frequency", ["daily", "weekly", "monthly"]).default("weekly").notNull(),
+  frequency: eventFrequency("frequency").default("weekly").notNull(),
   cadence: varchar("cadence", { length: 255 }),
   location: varchar("location", { length: 255 }),
   streamUrl: varchar("streamUrl", { length: 512 }),
@@ -44,29 +50,27 @@ export const events = mysqlTable("events", {
 });
 export type Event = typeof events.$inferSelect;
 
-export const contributions = mysqlTable("contributions", {
+export const contributions = pgTable("contributions", {
   id: serial("id").primaryKey(),
-  userId: bigint("userId", { mode: "number", unsigned: true }),
+  userId: bigint("userId", { mode: "number" }),
   reference: varchar("reference", { length: 32 }).notNull().unique(),
   fund: varchar("fund", { length: 64 }).notNull(),
-  amountPence: int("amountPence").notNull(),
+  amountPence: integer("amountPence").notNull(),
   currency: varchar("currency", { length: 8 }).default("gbp").notNull(),
   monthly: boolean("monthly").default(false).notNull(),
   giftAid: boolean("giftAid").default(false).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 320 }).notNull(),
-  status: mysqlEnum("status", ["pledged", "checkout_started", "paid", "failed"])
-    .default("pledged")
-    .notNull(),
+  status: contributionStatus("status").default("pledged").notNull(),
   stripeSessionId: varchar("stripeSessionId", { length: 255 }),
   consentGiven: boolean("consentGiven").default(false).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type Contribution = typeof contributions.$inferSelect;
 
-export const prayerRequests = mysqlTable("prayer_requests", {
+export const prayerRequests = pgTable("prayer_requests", {
   id: serial("id").primaryKey(),
-  userId: bigint("userId", { mode: "number", unsigned: true }),
+  userId: bigint("userId", { mode: "number" }),
   name: varchar("name", { length: 255 }),
   contact: varchar("contact", { length: 320 }),
   message: text("message").notNull(),
@@ -76,7 +80,7 @@ export const prayerRequests = mysqlTable("prayer_requests", {
 });
 export type PrayerRequest = typeof prayerRequests.$inferSelect;
 
-export const contactMessages = mysqlTable("contact_messages", {
+export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 320 }).notNull(),

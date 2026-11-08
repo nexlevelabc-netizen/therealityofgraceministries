@@ -3,11 +3,12 @@
 # What this creates: one web service that builds the React frontend and the
 # Node (Hono + tRPC) backend, then serves both from a single process.
 #
-# What you still need to add yourself (Render does not host MySQL):
-#   A MySQL database. Any provider works, for example the free tiers of
-#   Aiven, PlanetScale or Railway. Then set DATABASE_URL below in the
-#   Render dashboard (Environment tab) as
-#   mysql://USER:PASSWORD@HOST:PORT/DATABASE
+# What you still need to add yourself (Render does not host Postgres):
+#   A Postgres database. The site is built for Neon (free tier is plenty):
+#   create a project at neon.tech, copy the connection string from the
+#   dashboard, and set DATABASE_URL below in the Render dashboard
+#   (Environment tab). It looks like
+#   postgres://USER:PASSWORD@HOST.neon.tech/DBNAME?sslmode=require
 # The server applies the schema migrations and seeds the events calendar
 # automatically on first boot, so no manual database steps are needed.
 #

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { migrate } from "drizzle-orm/mysql2/migrator";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import path from "path";
 import { getDb } from "../queries/connection";
 import { events } from "@db/schema";
@@ -15,9 +15,9 @@ import { log } from "./logger";
 export async function runBootstrap(): Promise<void> {
   const db = getDb();
 
-  const result = await db.execute(sql`SHOW TABLES LIKE 'events'`);
-  const tableRows = (result as unknown as [unknown[]])[0];
-  const tableExists = Array.isArray(tableRows) && tableRows.length > 0;
+  const result = await db.execute(sql`SELECT to_regclass('public.events') AS t`);
+  const tableRows = (result as unknown as { rows: { t: string | null }[] }).rows;
+  const tableExists = Array.isArray(tableRows) && tableRows[0]?.t !== null;
 
   if (!tableExists) {
     const migrationsFolder = path.join(process.cwd(), "db", "migrations");
