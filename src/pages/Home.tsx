@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
+import { gsap } from "gsap";
 import { MaskedLines } from "@/components/PageHero";
 import { trpc } from "@/providers/trpc";
 import { SITE } from "@/lib/site";
@@ -76,25 +77,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- three doors ---------- */}
-      <section className="section--tight">
-        <div className="shell">
-          <div className="split split--lean-r" style={{ alignItems: "end", marginBottom: "3.5rem" }}>
-            <div>
-              <span className="minititle" data-reveal>
-                {t.home.doorsKicker}
-              </span>
-              <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-                {t.home.doorsTitle}
-              </h2>
-            </div>
-            <p className="body-copy" data-reveal>
-              {t.home.doorsIntro}
-            </p>
-          </div>
-
-          <DoorsCarousel
-            slides={[
+      {/* ---------- three doors: pinned horizontal rail ---------- */}
+      <DoorsRail
+        kicker={t.home.doorsKicker}
+        title={t.home.doorsTitle}
+        intro={t.home.doorsIntro}
+        slides={[
               {
                 img: "/img/hero-worship.jpg",
                 alt: t.home.door1Alt,
@@ -120,11 +108,7 @@ export default function Home() {
                 link: { to: "/contact", label: t.home.door3Link },
               },
             ]}
-            prevLabel={t.home.doorsPrev}
-            nextLabel={t.home.doorsNext}
           />
-        </div>
-      </section>
 
       {/* ---------- watch live band ---------- */}
       <section className="band-dark section">
@@ -286,83 +270,104 @@ type DoorSlide = {
   link: { to: string; label: string };
 };
 
-function DoorsCarousel({
+function DoorsRail({
+  kicker,
+  title,
+  intro,
   slides,
-  prevLabel,
-  nextLabel,
 }: {
+  kicker: string;
+  title: string;
+  intro: string;
   slides: DoorSlide[];
-  prevLabel: string;
-  nextLabel: string;
 }) {
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const dirRef = useRef(1);
-
-  const go = (next: number) => {
-    setIndex(((next % slides.length) + slides.length) % slides.length);
-  };
+  const { lang } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (paused) return;
-    const id = window.setInterval(() => {
-      setIndex((i) => {
-        const n = i + dirRef.current;
-        if (n >= slides.length || n < 0) dirRef.current = -dirRef.current;
-        return ((i + dirRef.current) % slides.length + slides.length) % slides.length;
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    const bar = barRef.current;
+    if (!section || !track || !bar) return;
+    const isRtl = lang === "ar";
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+      const tween = gsap.to(track, {
+        x: () => {
+          const viewport = track.parentElement;
+          const distance = Math.max(0, track.scrollWidth - (viewport ? viewport.clientWidth : 0));
+          return isRtl ? distance : -distance;
+        },
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.65,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            bar.style.transform = `scaleX(${self.progress})`;
+          },
+        },
       });
-    }, 6500);
-    return () => window.clearInterval(id);
-  }, [paused, slides.length]);
-
-  const isRtl = typeof document !== "undefined" && document.documentElement.dir === "rtl";
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+        gsap.set(track, { clearProps: "x" });
+        bar.style.transform = "scaleX(0)";
+      };
+    });
+    return () => mm.revert();
+  }, [lang]);
 
   return (
-    <div
-      className="doors-carousel"
-      data-reveal
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
-      <div
-        className="doors-track"
-        style={{ transform: `translateX(${(isRtl ? 1 : -1) * index * 100}%)` }}
-      >
-        {slides.map((s, i) => (
-          <div className="doors-slide" key={s.tag} aria-hidden={i !== index} dir={isRtl ? "rtl" : "ltr"}>
-            <div className="figure">
-              <img src={s.img} alt={s.alt} loading={i === 0 ? "eager" : "lazy"} />
-            </div>
+    <section className="doors-hpin" ref={sectionRef} aria-label={title}>
+      <div className="doors-hpin__sticky">
+        <div className="shell doors-hpin__head">
+          <div className="split split--lean-r" style={{ alignItems: "end" }}>
             <div>
-              <p className="figure-caption">{s.tag}</p>
-              <h3 className="display-2" style={{ margin: "0.6rem 0 1rem", fontSize: "clamp(1.8rem, 3.4vw, 3rem)" }}>
-                {s.title}
-              </h3>
-              <p className="body-copy" style={{ maxWidth: "46ch" }}>
-                {s.body}
-              </p>
-              <p style={{ marginTop: "1.6rem" }}>
-                <Link to={s.link.to} className="tlink" tabIndex={i === index ? 0 : -1}>
-                  {s.link.label}
-                </Link>
-              </p>
+              <span className="minititle" data-reveal>
+                {kicker}
+              </span>
+              <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
+                {title}
+              </h2>
             </div>
+            <p className="body-copy" data-reveal>
+              {intro}
+            </p>
           </div>
-        ))}
+        </div>
+        <div className="doors-hpin__viewport">
+          <div className="doors-hpin__track" ref={trackRef}>
+            {slides.map((s, i) => (
+              <article className="doors-card" key={s.tag} data-reveal>
+                <div className="doors-card__figure">
+                  <img src={s.img} alt={s.alt} loading={i === 0 ? "eager" : "lazy"} />
+                  <span className="doors-card__n" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div className="doors-card__body">
+                  <p className="figure-caption">{s.tag}</p>
+                  <h3 className="doors-card__title">{s.title}</h3>
+                  <p className="body-copy">{s.body}</p>
+                  <p style={{ marginTop: "1.4rem" }}>
+                    <Link to={s.link.to} className="tlink">
+                      {s.link.label}
+                    </Link>
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="shell doors-hpin__bar" aria-hidden="true">
+          <span ref={barRef} />
+        </div>
       </div>
-      <div className="doors-controls">
-        <button type="button" className="tlink" onClick={() => go(index - 1)} aria-label={prevLabel}>
-          {prevLabel}
-        </button>
-        <span className="doors-index" aria-live="polite">
-          {String(index + 1).padStart(2, "0")} · {String(slides.length).padStart(2, "0")}
-        </span>
-        <button type="button" className="tlink" onClick={() => go(index + 1)} aria-label={nextLabel}>
-          {nextLabel}
-        </button>
-      </div>
-    </div>
+    </section>
   );
 }
