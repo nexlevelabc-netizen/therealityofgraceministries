@@ -38,3 +38,8 @@ build/
 # Test coverage
 coverage/
 .nyc_output/
+# Binary assets live as base64 text under assets-b64/ and are regenerated
+# by scripts/decode-assets.mjs (prebuild) on every fresh clone
+public/brand/*.png
+public/favicon.png
+public/img/*.jpg
