@@ -1594,3 +1594,86 @@ img {
     display: none;
   }
 }
+
+/* Social icons */
+.soc-row,
+.foot-col ul.soc-row {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  padding: 0;
+  margin: 0;
+}
+.soc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.soc svg {
+  display: block;
+}
+.soc-row--labels .soc {
+  width: auto;
+  height: auto;
+  padding: 0.6rem 1.1rem 0.6rem 0.7rem;
+}
+.soc__label {
+  font-family: "Jost", sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Light surfaces (contact page) */
+.soc-row--light .soc {
+  color: var(--wine);
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(125, 21, 56, 0.22);
+  box-shadow: 0 1px 2px rgba(34, 6, 15, 0.06);
+}
+.soc-row--light .soc:hover,
+.soc-row--light .soc:focus-visible {
+  color: var(--cream);
+  background: var(--wine);
+  border-color: var(--wine);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(74, 13, 34, 0.28);
+}
+
+/* Dark surfaces (footer) */
+.soc-row--dark .soc {
+  color: rgba(248, 245, 239, 0.85);
+  background: rgba(248, 245, 239, 0.06);
+  border: 1px solid rgba(248, 245, 239, 0.22);
+}
+.soc-row--dark .soc:hover,
+.soc-row--dark .soc:focus-visible {
+  color: var(--wine-ink);
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.soc:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soc {
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .soc:hover,
+  .soc:focus-visible {
+    transform: none;
+  }
+}

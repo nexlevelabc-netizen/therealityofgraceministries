@@ -4,6 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { PrivacyConsent } from "@/components/PrivacyConsent";
 import { trpc } from "@/providers/trpc";
 import { SITE } from "@/lib/site";
+import { SocialIcons } from "@/components/SocialIcons";
 import { fill, useLang } from "@/i18n";
 
 const TOPIC_IDS = ["general", "serve", "testimony", "media", "other"] as const;
@@ -60,15 +61,9 @@ export default function Contact() {
               </div>
               <div data-reveal>
                 <span className="minititle">{t.contact.followKicker}</span>
-                <ul style={{ listStyle: "none", padding: 0, marginTop: "0.8rem", display: "grid", gap: "0.5rem" }}>
-                  {SITE.socials.map((s) => (
-                    <li key={s.label}>
-                      <a href={s.href} target="_blank" rel="noopener noreferrer" className="tlink">
-                        {s.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <div style={{ marginTop: "0.9rem" }}>
+                  <SocialIcons tone="light" withLabels />
+                </div>
               </div>
             </div>
           </div>

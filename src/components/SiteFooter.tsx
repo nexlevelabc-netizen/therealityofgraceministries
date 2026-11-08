@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useLang } from "@/i18n";
 import { SITE } from "@/lib/site";
+import { SocialIcons } from "./SocialIcons";
 
 export function SiteFooter() {
   const { t } = useLang();
@@ -32,14 +33,8 @@ export function SiteFooter() {
         </div>
         <div className="foot-col">
           <h4>{t.footer.connect}</h4>
-          <ul>
-            {SITE.socials.map((s) => (
-              <li key={s.label}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer">
-                  {s.label}
-                </a>
-              </li>
-            ))}
+          <SocialIcons tone="dark" />
+          <ul style={{ marginTop: "1.1rem" }}>
             <li>
               <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
             </li>
