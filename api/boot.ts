@@ -8,6 +8,7 @@ import { env } from "./lib/env";
 import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "@contracts/constants";
 import { log } from "./lib/logger";
+import { chatRoutes } from "./routes/chat";
 import { handleClientLog } from "./lib/clientlog";
 import { REQUEST_ID_HEADER, runWithRequestId } from "./lib/requestcontext";
 
@@ -77,6 +78,7 @@ app.post(
   bodyLimit({ maxSize: 64 * 1024, onError: (c) => c.body(null, 413) }),
   handleClientLog,
 );
+app.route("/api/chat", chatRoutes);
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
 // Unhandled request errors must reach /tmp/kimi-logs/app.log, not just stdout:

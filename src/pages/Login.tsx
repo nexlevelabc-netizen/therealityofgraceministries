@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { PageHero } from "@/components/PageHero";
 
 function getOAuthUrl() {
   const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
@@ -19,23 +18,34 @@ function getOAuthUrl() {
 
 export default function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <CardTitle>Welcome</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Button
-            className="w-full"
-            size="lg"
+    <>
+      <PageHero
+        kicker="Members"
+        title={
+          <>
+            Your place <em className="serif-italic" style={{ color: "var(--wine)" }}>in the house</em>
+          </>
+        }
+        intro="Sign in to see your giving history and the requests you have entrusted to us."
+      />
+      <section className="section--tight">
+        <div className="shell--narrow" style={{ marginInline: "auto", textAlign: "center" }}>
+          <button
+            type="button"
+            className="btn"
+            style={{ minWidth: "16rem" }}
             onClick={() => {
               window.location.href = getOAuthUrl();
             }}
           >
             Sign in with Kimi
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+          </button>
+          <p className="body-copy" style={{ margin: "1.4rem auto 0", maxWidth: "40ch", fontSize: "0.92rem" }}>
+            Sign in is provided by Kimi. We only receive your name and email, and we use them solely
+            to keep your records together.
+          </p>
+        </div>
+      </section>
+    </>
   );
 }

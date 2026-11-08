@@ -1,21 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-full max-w-sm text-center">
-        <CardHeader>
-          <CardTitle className="text-4xl font-bold">404</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-muted-foreground">Page not found</p>
-          <Button asChild className="w-full">
-            <Link to="/">Back to Home</Link>
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+    <section className="page-hero" style={{ minHeight: "70vh" }}>
+      <div className="shell" style={{ textAlign: "center" }}>
+        <span className="minititle" style={{ justifyContent: "center" }}>
+          Page not found
+        </span>
+        <h1 className="display-hero" style={{ marginTop: "1.4rem", fontSize: "clamp(2.6rem, 6vw, 4.5rem)" }}>
+          This door is <em className="serif-italic" style={{ color: "var(--wine)" }}>closed</em>
+        </h1>
+        <p className="body-copy" style={{ margin: "1.4rem auto 0" }}>
+          The page you asked for does not exist, but every other door is open.
+        </p>
+        <div style={{ marginTop: "2rem" }}>
+          <Link to="/" className="btn">
+            Back to the beginning
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
