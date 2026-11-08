@@ -24,12 +24,26 @@ Rules you always follow:
 - Never give medical, legal or financial advice. Suggest speaking with the pastoral team or a professional instead.
 - If someone seems at risk of harming themselves or others, urge them kindly to contact local emergency services immediately, and mention the church phone 07908 407744.
 - Never ask for money, passwords, or personal documents.
-- You may suggest leaving a prayer request for the pastoral team using the form below the chat.`;
+- You may suggest leaving a prayer request for the pastoral team using the form below the chat.
+- Never use em dashes or hyphens as punctuation in your replies. Use commas, full stops, or the middle dot instead.`;
 
 export const chatRoutes = new Hono();
 
+const TOPIC_GUIDANCE: Record<string, string> = {
+  prayer: "The person is here to ask for prayer. Move toward offering a short written prayer soon.",
+  counselling: "The person seeks counselling. Listen carefully, ask one gentle question at a time, and suggest the pastoral team for anything deep or ongoing.",
+  support: "The person needs practical support. Be warm and concrete, and point them to the pastoral team and the church phone for follow up.",
+  testimony: "The person wants to share a testimony. Celebrate with them and invite them to share it with the church family.",
+  newhere: "The person is new and curious about the church. Welcome them warmly and explain they can visit any Sunday or watch online.",
+};
+
 chatRoutes.post("/", async (c) => {
-  let payload: { language?: string; messages?: { role: string; content: string }[] };
+  let payload: {
+    language?: string;
+    topic?: string;
+    greet?: boolean;
+    messages?: { role: string; content: string }[];
+  };
   try {
     payload = await c.req.json();
   } catch {
@@ -37,10 +51,21 @@ chatRoutes.post("/", async (c) => {
   }
 
   const language = LANGUAGE_NAMES[payload.language ?? "en"] ?? "English";
-  const messages = (payload.messages ?? [])
+  const topicGuidance = TOPIC_GUIDANCE[payload.topic ?? ""] ?? "";
+  let messages = (payload.messages ?? [])
     .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
     .slice(-12)
     .map((m) => ({ role: m.role as "user" | "assistant", content: m.content.slice(0, 2000) }));
+
+  if (payload.greet) {
+    messages = [
+      {
+        role: "user",
+        content:
+          "Open the conversation now: greet me warmly in two or three sentences, mention that you can pray, listen and counsel, and ask one gentle opening question.",
+      },
+    ];
+  }
 
   if (messages.length === 0) {
     return c.json({ error: "No messages" }, 400);
@@ -56,7 +81,7 @@ chatRoutes.post("/", async (c) => {
 
     const result = streamText({
       model: kimiGw(defaultModelId),
-      system: `${SYSTEM}\n\nThe person has chosen ${language}. Reply only in ${language}.`,
+      system: `${SYSTEM}\n\nThe person has chosen ${language}. Reply only in ${language}.${topicGuidance ? `\n\n${topicGuidance}` : ""}`,
       messages,
       providerOptions: { "kimi-gw": { max_completion_tokens: 700 } },
     });

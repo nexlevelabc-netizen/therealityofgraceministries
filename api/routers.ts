@@ -15,9 +15,18 @@ export const eventsRouter = createRouter({
       return db
         .select()
         .from(events)
-        .where(gte(events.startsAt, new Date(Date.now() - 24 * 3600 * 1000)))
+        .where(gte(events.startsAt, new Date(Date.now() - 48 * 3600 * 1000)))
         .orderBy(events.startsAt)
         .limit(input.limit);
+    }),
+
+  byFrequency: publicQuery
+    .input(z.object({ frequency: z.enum(["all", "daily", "weekly", "monthly"]).default("all") }))
+    .query(async ({ input }) => {
+      const db = getDb();
+      const rows = await db.select().from(events).orderBy(events.startsAt).limit(100);
+      if (input.frequency === "all") return rows;
+      return rows.filter((r) => r.frequency === input.frequency);
     }),
 });
 

@@ -1,4 +1,5 @@
 import { PageHero } from "@/components/PageHero";
+import { useLang } from "@/i18n";
 
 function getOAuthUrl() {
   const kimiAuthUrl = import.meta.env.VITE_KIMI_AUTH_URL;
@@ -17,16 +18,20 @@ function getOAuthUrl() {
 }
 
 export default function Login() {
+  const { t } = useLang();
   return (
     <>
       <PageHero
-        kicker="Members"
+        kicker={t.login.kicker}
         title={
           <>
-            Your place <em className="serif-italic" style={{ color: "var(--wine)" }}>in the house</em>
+            {t.login.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--wine)" }}>
+              {t.login.titleEm}
+            </em>
           </>
         }
-        intro="Sign in to see your giving history and the requests you have entrusted to us."
+        intro={t.login.intro}
       />
       <section className="section--tight">
         <div className="shell--narrow" style={{ marginInline: "auto", textAlign: "center" }}>
@@ -38,11 +43,10 @@ export default function Login() {
               window.location.href = getOAuthUrl();
             }}
           >
-            Sign in with Kimi
+            {t.login.button}
           </button>
           <p className="body-copy" style={{ margin: "1.4rem auto 0", maxWidth: "40ch", fontSize: "0.92rem" }}>
-            Sign in is provided by Kimi. We only receive your name and email, and we use them solely
-            to keep your records together.
+            {t.login.note}
           </p>
         </div>
       </section>

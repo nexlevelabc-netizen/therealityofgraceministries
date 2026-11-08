@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
-import { NAV_LINKS, SITE } from "@/lib/site";
+import { LANGS, useLang } from "@/i18n";
+import { LangSwitch } from "./LangSwitch";
 
 export function SiteHeader() {
+  const { t, lang, setLang } = useLang();
   const [hidden, setHidden] = useState(false);
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
@@ -41,6 +43,16 @@ export function SiteHeader() {
     };
   }, [open]);
 
+  const links = [
+    { to: "/about", label: t.nav.about },
+    { to: "/visit", label: t.nav.visit },
+    { to: "/gatherings", label: t.nav.gatherings },
+    { to: "/live", label: t.nav.live },
+    { to: "/believe", label: t.nav.believe },
+    { to: "/prayer", label: t.nav.prayer },
+    { to: "/contact", label: t.nav.contact },
+  ];
+
   return (
     <>
       <header
@@ -52,23 +64,26 @@ export function SiteHeader() {
         ].join(" ")}
       >
         <div className="shell--wide head-bar" style={{ marginInline: "auto" }}>
-          <Link to="/" className="brand" aria-label={`${SITE.fullName} home`}>
+          <Link to="/" className="brand" aria-label={`${t.brand.name} ${t.brand.suffix}`}>
             <img src="/brand/logo-mark.png" alt="" width={42} height={22} />
             <span className="brand-word">
-              <b>The Reality of Grace</b>
-              <small>Ministries Int'l</small>
+              <b>{t.brand.name}</b>
+              <small>{t.brand.suffix}</small>
             </span>
           </Link>
           <nav className="head-nav" aria-label="Primary">
-            {NAV_LINKS.map((l) => (
+            {links.map((l) => (
               <NavLink key={l.to} to={l.to}>
                 {l.label}
               </NavLink>
             ))}
           </nav>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+            <span style={{ display: "none" }} className="head-lang-desktop">
+              <LangSwitch />
+            </span>
             <Link to="/give" className="btn btn--gold head-give">
-              Give
+              {t.nav.give}
             </Link>
             <button
               type="button"
@@ -77,7 +92,7 @@ export function SiteHeader() {
               aria-controls="menu-overlay"
               onClick={() => setOpen(true)}
             >
-              Menu
+              {t.nav.menu}
             </button>
           </div>
         </div>
@@ -89,34 +104,54 @@ export function SiteHeader() {
         data-open={open}
         role="dialog"
         aria-modal="true"
-        aria-label="Site menu"
+        aria-label={t.nav.menu}
       >
         <div className="menu-overlay__top">
-          <Link to="/" className="brand" aria-label={`${SITE.fullName} home`}>
+          <Link to="/" className="brand" aria-label={`${t.brand.name} ${t.brand.suffix}`}>
             <img src="/brand/logo-mark.png" alt="" width={42} height={22} />
             <span className="brand-word">
-              <b style={{ color: "var(--cream)" }}>The Reality of Grace</b>
-              <small>Ministries Int'l</small>
+              <b style={{ color: "var(--cream)" }}>{t.brand.name}</b>
+              <small>{t.brand.suffix}</small>
             </span>
           </Link>
           <button type="button" className="menu-overlay__close" onClick={() => setOpen(false)}>
-            Close
+            {t.nav.close}
           </button>
         </div>
-        <nav className="menu-overlay__links" aria-label="Menu">
-          {[{ to: "/", label: "Home" }, ...NAV_LINKS, { to: "/give", label: "Give" }].map((l) => (
+        <nav className="menu-overlay__links" aria-label={t.nav.menu}>
+          {[{ to: "/", label: t.nav.home }, ...links, { to: "/give", label: t.nav.give }].map((l) => (
             <NavLink key={l.to} to={l.to} end={l.to === "/"}>
               {l.label}
             </NavLink>
           ))}
         </nav>
-        <div className="menu-overlay__meta">
-          <span>
-            Call us <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
-          </span>
-          <span>
-            Write to us <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-          </span>
+        <div className="menu-overlay__meta" style={{ flexDirection: "column", alignItems: "flex-start" }}>
+          <div>
+            <span style={{ display: "block", marginBottom: "0.4rem", letterSpacing: "0.2em", textTransform: "uppercase", fontSize: "0.7rem", color: "var(--gold)" }}>
+              {t.nav.language}
+            </span>
+            <div className="menu-langs" role="group" aria-label={t.nav.language}>
+              {LANGS.map((l) => (
+                <button
+                  key={l.code}
+                  type="button"
+                  data-active={lang === l.code}
+                  aria-pressed={lang === l.code}
+                  onClick={() => setLang(l.code)}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+            <span>
+              {t.nav.callUs} <a href="tel:+447908407744">07908 407744</a>
+            </span>
+            <span>
+              {t.nav.writeUs} <a href="mailto:info@therealityofgraceministries.com">info@therealityofgraceministries.com</a>
+            </span>
+          </div>
         </div>
       </div>
     </>

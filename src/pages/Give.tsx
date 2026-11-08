@@ -4,14 +4,17 @@ import { Link } from "react-router";
 import { PageHero } from "@/components/PageHero";
 import { PrivacyConsent } from "@/components/PrivacyConsent";
 import { trpc } from "@/providers/trpc";
-import { GIVE_FUNDS, SITE } from "@/lib/site";
+import { fill, useLang } from "@/i18n";
 
 const AMOUNTS = [10, 25, 50, 100, 250];
+const FUND_IDS = ["tithes", "offerings", "kingdom", "compassion"] as const;
+type FundId = (typeof FUND_IDS)[number];
 
 type Step = "details" | "done";
 
 export default function Give() {
-  const [fund, setFund] = useState<(typeof GIVE_FUNDS)[number]["id"]>("tithes");
+  const { t } = useLang();
+  const [fund, setFund] = useState<FundId>("tithes");
   const [amount, setAmount] = useState<number | null>(50);
   const [custom, setCustom] = useState("");
   const [monthly, setMonthly] = useState(false);
@@ -23,6 +26,7 @@ export default function Give() {
   const [reference, setReference] = useState("");
 
   const finalAmount = custom ? Number(custom) : amount;
+  const fundLabel = t.funds[fund].label;
 
   const begin = trpc.giving.begin.useMutation({
     onSuccess: (data) => {
@@ -55,33 +59,32 @@ export default function Give() {
       <section className="page-hero" style={{ minHeight: "80vh", display: "flex", alignItems: "center" }}>
         <div className="shell--narrow" style={{ marginInline: "auto", textAlign: "center" }}>
           <span className="minititle" style={{ justifyContent: "center" }}>
-            Received with thanks
+            {t.give.doneKicker}
           </span>
           <h1 className="display-2" style={{ marginTop: "1.4rem", fontSize: "clamp(2.4rem, 5vw, 4rem)" }}>
-            Your seed is sown
+            {t.give.doneTitle}
           </h1>
           <p className="body-copy" style={{ margin: "1.4rem auto 0" }}>
-            Reference {reference}. A confirmation is on its way to {email || "your inbox"}. If you
-            chose to give by bank transfer, use this reference so we can honour your intention.
+            {fill(t.give.doneBody, { reference, email: email || "…" })}
           </p>
           <div className="toast-note" style={{ marginTop: "2rem", textAlign: "left" }}>
             <p style={{ fontSize: "0.72rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.6rem" }}>
-              Bank transfer details
+              {t.give.bankTitle}
             </p>
             <p>
-              Account name: The Reality of Grace Ministries Int'l
+              {t.give.bankName}
               <br />
-              Sort code and account number are confirmed by email for security.
+              {t.give.bankNote}
               <br />
-              Reference: {reference}
+              {fill(t.give.bankRef, { reference })}
             </p>
           </div>
           <div style={{ marginTop: "2.2rem", display: "flex", gap: "0.9rem", justifyContent: "center", flexWrap: "wrap" }}>
             <button type="button" className="btn btn--ghost" onClick={() => setStep("details")}>
-              Give again
+              {t.give.giveAgain}
             </button>
             <Link to="/account" className="btn">
-              View my giving
+              {t.give.viewGiving}
             </Link>
           </div>
         </div>
@@ -92,65 +95,67 @@ export default function Give() {
   return (
     <>
       <PageHero
-        kicker="Generosity"
+        kicker={t.give.kicker}
         title={
           <>
-            Give where it <em className="serif-italic" style={{ color: "var(--wine)" }}>keeps growing</em>
+            {t.give.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--wine)" }}>
+              {t.give.titleEm}
+            </em>
           </>
         }
-        intro="Tithes, offerings, project giving and compassion funds, received with prayer and handled with care."
+        intro={t.give.intro}
       />
 
       <section className="section--tight">
           <div className="shell split split--lean-r" style={{ alignItems: "start" }}>
             <div>
               <span className="minititle" data-reveal>
-                Choose your fund
+                {t.give.chooseFund}
               </span>
               <div style={{ marginTop: "1.6rem", display: "grid", gap: "0" }}>
-                {GIVE_FUNDS.map((f) => (
+                {FUND_IDS.map((id) => (
                   <button
-                    key={f.id}
+                    key={id}
                     type="button"
-                    onClick={() => setFund(f.id)}
-                    aria-pressed={fund === f.id}
+                    onClick={() => setFund(id)}
+                    aria-pressed={fund === id}
                     style={{
                       textAlign: "left",
-                      background: fund === f.id ? "rgba(125, 21, 56, 0.06)" : "transparent",
+                      background: fund === id ? "rgba(125, 21, 56, 0.06)" : "transparent",
                       border: 0,
                       borderTop: "1px solid var(--line)",
                       padding: "1.3rem 0.8rem 1.3rem 0",
                       cursor: "pointer",
-                      borderLeft: fund === f.id ? "2px solid var(--gold)" : "2px solid transparent",
+                      borderLeft: fund === id ? "2px solid var(--gold)" : "2px solid transparent",
                       paddingLeft: "1rem",
                       transition: "all 0.2s ease",
                     }}
                     data-reveal
                   >
-                    <span className="font-display" style={{ fontSize: "1.5rem", fontWeight: 500, color: fund === f.id ? "var(--wine)" : "var(--ink)" }}>
-                      {f.label}
+                    <span className="font-display" style={{ fontSize: "1.5rem", fontWeight: 500, color: fund === id ? "var(--wine)" : "var(--ink)" }}>
+                      {t.funds[id].label}
                     </span>
                     <span style={{ display: "block", color: "var(--ink-soft)", fontSize: "0.95rem", marginTop: "0.2rem" }}>
-                      {f.blurb}
+                      {t.funds[id].blurb}
                     </span>
                   </button>
                 ))}
               </div>
               <p className="body-copy" style={{ marginTop: "2rem" }} data-reveal>
-                Payments are processed securely by Stripe, including direct bank debit where
-                available. The ministry never sees or stores your card details.
+                {t.give.stripeNote}
               </p>
               <p className="body-copy" style={{ marginTop: "1rem" }} data-reveal>
-                Prefer to give another way? Call {SITE.phoneDisplay} and we will help.
+                {fill(t.give.callNote)}
               </p>
             </div>
 
             <form onSubmit={onSubmit} style={{ display: "grid", gap: "1.8rem", border: "1px solid var(--line)", padding: "clamp(1.4rem, 3vw, 2.4rem)" }} data-reveal>
               <div>
                 <p style={{ fontSize: "0.72rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "var(--ink-soft)", marginBottom: "0.9rem" }}>
-                  Amount in pounds
+                  {t.give.amountLabel}
                 </p>
-                <div className="chip-row" role="group" aria-label="Amount">
+                <div className="chip-row" role="group" aria-label={t.give.amountLabel}>
                   {AMOUNTS.map((a) => (
                     <button
                       key={a}
@@ -167,7 +172,7 @@ export default function Give() {
                   ))}
                 </div>
                 <div className="field" style={{ marginTop: "1.1rem" }}>
-                  <label htmlFor="g-custom">Or your own amount</label>
+                  <label htmlFor="g-custom">{t.give.customLabel}</label>
                   <input
                     id="g-custom"
                     inputMode="decimal"
@@ -177,35 +182,32 @@ export default function Give() {
                       const v = e.target.value.replace(/[^0-9.]/g, "");
                       setCustom(v);
                     }}
-                    placeholder="Type an amount"
+                    placeholder={t.give.customPh}
                   />
                 </div>
               </div>
 
-              <div className="chip-row" role="group" aria-label="Frequency">
+              <div className="chip-row" role="group" aria-label={t.give.monthly}>
                 <button type="button" className="chip" data-active={!monthly} onClick={() => setMonthly(false)}>
-                  One time
+                  {t.give.once}
                 </button>
                 <button type="button" className="chip" data-active={monthly} onClick={() => setMonthly(true)}>
-                  Every month
+                  {t.give.monthly}
                 </button>
               </div>
 
               <div className="field">
-                <label htmlFor="g-name">Your name</label>
-                <input id="g-name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="So we can thank you properly" />
+                <label htmlFor="g-name">{t.give.nameLabel}</label>
+                <input id="g-name" required value={name} onChange={(e) => setName(e.target.value)} placeholder={t.give.namePh} />
               </div>
               <div className="field">
-                <label htmlFor="g-email">Email</label>
-                <input id="g-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="For your receipt" />
+                <label htmlFor="g-email">{t.give.emailLabel}</label>
+                <input id="g-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t.give.emailPh} />
               </div>
 
               <label className="consent" style={{ cursor: "pointer", background: "transparent" }}>
                 <input type="checkbox" checked={giftAid} onChange={(e) => setGiftAid(e.target.checked)} />
-                <p>
-                  I am a UK taxpayer and I would like the ministry to reclaim Gift Aid on this gift,
-                  adding twenty five pence to every pound at no cost to me.
-                </p>
+                <p>{t.give.giftAid}</p>
               </label>
 
               <PrivacyConsent checked={consent} onChange={setConsent} context="giving" />
@@ -218,13 +220,15 @@ export default function Give() {
                   disabled={!consent || !finalAmount || finalAmount < 1 || begin.isPending}
                 >
                   {begin.isPending
-                    ? "Preparing your gift"
-                    : `Give £${finalAmount && finalAmount > 0 ? finalAmount : 0}${monthly ? " monthly" : ""} to ${GIVE_FUNDS.find((f) => f.id === fund)?.label}`}
+                    ? t.give.preparing
+                    : fill(monthly ? t.give.submitMonthly : t.give.submitOnce, {
+                        amount: String(finalAmount && finalAmount > 0 ? finalAmount : 0),
+                        fund: fundLabel,
+                      })}
                 </button>
                 {begin.isError ? (
                   <p className="toast-note toast-note--error" style={{ marginTop: "1rem" }}>
-                    We could not start the payment just now. Nothing was taken. Please try again or
-                    call {SITE.phoneDisplay}.
+                    {fill(t.give.errorBody)}
                   </p>
                 ) : null}
               </div>

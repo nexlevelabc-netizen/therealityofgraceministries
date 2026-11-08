@@ -1,55 +1,40 @@
 import { Link } from "react-router";
 import { PageHero } from "@/components/PageHero";
-
-const BELIEFS = [
-  {
-    t: "The Scriptures",
-    b: "The bible is the inspired word of God, trustworthy in all it teaches, and the final authority for faith and life.",
-  },
-  {
-    t: "God",
-    b: "One God, eternally existing as Father, Son and Holy Spirit, the maker and keeper of all things.",
-  },
-  {
-    t: "Jesus Christ",
-    b: "Fully God and fully man. His death paid for our sin in full, His resurrection sealed our justification, and He lives to intercede for us now.",
-  },
-  {
-    t: "Grace",
-    b: "Salvation is a gift from first to last. We are saved by grace through faith, not by works, so that no one can boast and no one needs to despair.",
-  },
-  {
-    t: "The Holy Spirit",
-    b: "The Spirit indwells every believer, empowers holy living, and distributes gifts for the building of the church and the healing of the world.",
-  },
-  {
-    t: "The Church",
-    b: "One body across every nation and tongue, gathered to worship, scattered to serve, and commissioned to make disciples of all peoples.",
-  },
-  {
-    t: "The Hope",
-    b: "Christ will return bodily, the dead will be raised, and God will make all things new. We live and labour in that certainty.",
-  },
-];
+import { useLang } from "@/i18n";
 
 export default function Believe() {
+  const { t } = useLang();
+
+  const beliefs = [
+    { title: t.believe.b1t, body: t.believe.b1b },
+    { title: t.believe.b2t, body: t.believe.b2b },
+    { title: t.believe.b3t, body: t.believe.b3b },
+    { title: t.believe.b4t, body: t.believe.b4b },
+    { title: t.believe.b5t, body: t.believe.b5b },
+    { title: t.believe.b6t, body: t.believe.b6b },
+    { title: t.believe.b7t, body: t.believe.b7b },
+  ];
+
   return (
     <>
       <PageHero
-        kicker="What we believe"
+        kicker={t.believe.kicker}
         title={
           <>
-            The ground <em className="serif-italic" style={{ color: "var(--wine)" }}>we stand on</em>
+            {t.believe.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--wine)" }}>
+              {t.believe.titleEm}
+            </em>
           </>
         }
-        intro="Not a fence to keep people out, but a foundation to build lives on. This is what we preach, teach and sing."
+        intro={t.believe.intro}
       />
 
       <section className="section--tight">
         <div className="shell--narrow" style={{ marginInline: "auto" }}>
-          {BELIEFS.map((b, i) => (
+          {beliefs.map((b, i) => (
             <div
-              key={b.t}
+              key={b.title}
               data-reveal
               style={{
                 display: "grid",
@@ -61,9 +46,9 @@ export default function Believe() {
             >
               <div style={{ display: "flex", alignItems: "baseline", gap: "1.2rem" }}>
                 <span className="minititle minititle--bare">{String(i + 1).padStart(2, "0")}</span>
-                <h2 className="display-3">{b.t}</h2>
+                <h2 className="display-3">{b.title}</h2>
               </div>
-              <p className="body-copy">{b.b}</p>
+              <p className="body-copy">{b.body}</p>
             </div>
           ))}
         </div>
@@ -72,15 +57,14 @@ export default function Believe() {
       <section className="band-dark section--tight">
         <div className="shell--narrow" style={{ marginInline: "auto", textAlign: "center" }}>
           <p className="lede" style={{ color: "var(--cream)", maxWidth: "40ch", marginInline: "auto" }} data-reveal>
-            Doctrine is only the beginning. The proof of grace is a changed life, and we would love
-            to show you one.
+            {t.believe.ctaBody}
           </p>
           <div style={{ marginTop: "2rem", display: "flex", gap: "0.9rem", justifyContent: "center", flexWrap: "wrap" }} data-reveal>
             <Link to="/visit" className="btn btn--gold">
-              Plan your first visit
+              {t.believe.ctaVisit}
             </Link>
             <Link to="/prayer" className="btn btn--ghost-dark">
-              Talk it through with someone
+              {t.believe.ctaTalk}
             </Link>
           </div>
         </div>

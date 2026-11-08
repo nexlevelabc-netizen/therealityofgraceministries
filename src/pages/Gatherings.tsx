@@ -1,98 +1,107 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { PageHero } from "@/components/PageHero";
 import { trpc } from "@/providers/trpc";
-import { GATHERING_RHYTHM } from "@/lib/site";
+import { useLang } from "@/i18n";
+
+type Freq = "all" | "daily" | "weekly" | "monthly";
 
 export default function Gatherings() {
-  const upcoming = trpc.events.upcoming.useQuery({ limit: 30 });
+  const { t, locale } = useLang();
+  const [freq, setFreq] = useState<Freq>("all");
+  const events = trpc.events.byFrequency.useQuery({ frequency: freq });
+
+  const filters: { id: Freq; label: string }[] = [
+    { id: "all", label: t.gatherings.filterAll },
+    { id: "daily", label: t.gatherings.filterDaily },
+    { id: "weekly", label: t.gatherings.filterWeekly },
+    { id: "monthly", label: t.gatherings.filterMonthly },
+  ];
+
+  const freqLabel = (f: "daily" | "weekly" | "monthly") =>
+    f === "daily" ? t.gatherings.freqDaily : f === "weekly" ? t.gatherings.freqWeekly : t.gatherings.freqMonthly;
 
   return (
     <>
       <PageHero
-        kicker="Gatherings"
+        kicker={t.gatherings.kicker}
         title={
           <>
-            The week has <em className="serif-italic" style={{ color: "var(--wine)" }}>a heartbeat</em>
+            {t.gatherings.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--wine)" }}>
+              {t.gatherings.titleEm}
+            </em>
           </>
         }
-        intro="Sundays are the feast, but grace keeps office hours all week. Everything below is open to you."
+        intro={t.gatherings.intro}
       />
 
       <section className="section--tight">
         <div className="shell">
-          <span className="minititle" data-reveal>
-            Every week
-          </span>
-          <div style={{ marginTop: "2rem" }}>
-            {GATHERING_RHYTHM.map((g) => (
-              <div className="rowline" key={g.day} data-reveal>
-                <div>
-                  <p className="rowline__title">{g.name}</p>
-                  <p className="body-copy">{g.note}</p>
-                </div>
-                <p className="rowline__meta">
-                  {g.day} · {g.time}
-                </p>
-              </div>
+          <div className="event-filters" data-reveal role="group" aria-label={t.gatherings.kicker}>
+            {filters.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                className={`event-filter${freq === f.id ? " is-active" : ""}`}
+                aria-pressed={freq === f.id}
+                onClick={() => setFreq(f.id)}
+              >
+                {f.label}
+              </button>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="section--tight rule-top">
-        <div className="shell">
-          <span className="minititle" data-reveal>
-            Marked in the diary
-          </span>
-          <h2 className="display-2" style={{ marginTop: "1.2rem", marginBottom: "2rem" }} data-reveal>
-            Coming up
-          </h2>
-
-          {upcoming.isLoading ? (
-            <p className="body-copy">Opening the diary</p>
-          ) : upcoming.isError ? (
-            <p className="body-copy">
-              The calendar could not be reached just now. The weekly rhythm above always stands.
-            </p>
-          ) : upcoming.data && upcoming.data.length > 0 ? (
-            <div>
-              {upcoming.data.map((e) => (
-                <div className="rowline" key={e.id} data-reveal>
-                  <div>
-                    <p className="rowline__title">{e.title}</p>
-                    {e.description ? <p className="body-copy">{e.description}</p> : null}
+          <div style={{ marginTop: "2.4rem" }}>
+            {events.isLoading ? (
+              <p className="body-copy">{t.gatherings.loading}</p>
+            ) : events.isError ? (
+              <p className="body-copy">{t.gatherings.errorBody}</p>
+            ) : events.data && events.data.length > 0 ? (
+              <div>
+                {events.data.map((e) => (
+                  <div className="rowline" key={e.id} data-reveal>
+                    <div>
+                      <p className="rowline__title">{e.title}</p>
+                      {e.description ? <p className="body-copy">{e.description}</p> : null}
+                      <p className="figure-caption" style={{ marginTop: "0.35rem" }}>
+                        {freqLabel(e.frequency)}
+                        {e.cadence ? ` · ${e.cadence}` : ""}
+                      </p>
+                    </div>
+                    <p className="rowline__meta">
+                      {new Date(e.startsAt).toLocaleDateString(locale, {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        timeZone: "Europe/London",
+                      })}
+                      {" · "}
+                      {new Date(e.startsAt).toLocaleTimeString(locale, {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        timeZone: "Europe/London",
+                      })}
+                      {e.location ? ` · ${e.location}` : ""}
+                      {e.streamUrl ? ` · ${t.gatherings.streamed}` : ""}
+                    </p>
                   </div>
-                  <p className="rowline__meta">
-                    {new Date(e.startsAt).toLocaleDateString("en-GB", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                    {" · "}
-                    {new Date(e.startsAt).toLocaleTimeString("en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    {e.location ? ` · ${e.location}` : ""}
-                    {e.streamUrl ? " · streamed live" : ""}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="body-copy" data-reveal>
-              No special dates are published yet beyond the weekly rhythm. New dates appear here as
-              they are announced.
-            </p>
-          )}
+                ))}
+              </div>
+            ) : (
+              <p className="body-copy" data-reveal>
+                {t.gatherings.emptyBody}
+              </p>
+            )}
+          </div>
 
           <div style={{ marginTop: "2.4rem", display: "flex", gap: "1.6rem", flexWrap: "wrap" }} data-reveal>
             <Link to="/live" className="tlink">
-              Join online instead
+              {t.gatherings.joinOnline}
             </Link>
             <Link to="/visit" className="tlink">
-              Planning your first visit
+              {t.gatherings.planVisit}
             </Link>
           </div>
         </div>

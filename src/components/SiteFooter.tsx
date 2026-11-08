@@ -1,37 +1,37 @@
 import { Link } from "react-router";
-import { GATHERING_RHYTHM, SITE } from "@/lib/site";
+import { useLang } from "@/i18n";
+import { SITE } from "@/lib/site";
 
 export function SiteFooter() {
+  const { t } = useLang();
   return (
     <footer className="site-foot">
       <div className="shell foot-grid">
         <div className="foot-brand">
-          <img src="/brand/logo-mark.png" alt={SITE.fullName} width={110} height={59} />
-          <p>A family where grace is not a theory but a daily reality.</p>
+          <img src="/brand/logo-mark.png" alt={`${t.brand.name} ${t.brand.suffix}`} width={110} height={59} />
+          <p>{t.footer.line}</p>
         </div>
         <div className="foot-col">
-          <h4>Explore</h4>
+          <h4>{t.footer.explore}</h4>
           <ul>
-            <li><Link to="/about">About the ministry</Link></li>
-            <li><Link to="/visit">Your first visit</Link></li>
-            <li><Link to="/gatherings">Gatherings</Link></li>
-            <li><Link to="/live">Watch live</Link></li>
-            <li><Link to="/believe">What we believe</Link></li>
-            <li><Link to="/give">Give</Link></li>
+            <li><Link to="/about">{t.footer.aboutMinistry}</Link></li>
+            <li><Link to="/visit">{t.footer.firstVisit}</Link></li>
+            <li><Link to="/gatherings">{t.footer.gatherings}</Link></li>
+            <li><Link to="/live">{t.footer.watchLive}</Link></li>
+            <li><Link to="/believe">{t.footer.believe}</Link></li>
+            <li><Link to="/give">{t.footer.give}</Link></li>
           </ul>
         </div>
         <div className="foot-col">
-          <h4>Gather</h4>
+          <h4>{t.footer.gather}</h4>
           <ul>
-            {GATHERING_RHYTHM.map((g) => (
-              <li key={g.day}>
-                {g.day} · {g.time}
-              </li>
-            ))}
+            <li>{t.footer.rhythmSunday}</li>
+            <li>{t.footer.rhythmWednesday}</li>
+            <li>{t.footer.rhythmFriday}</li>
           </ul>
         </div>
         <div className="foot-col">
-          <h4>Connect</h4>
+          <h4>{t.footer.connect}</h4>
           <ul>
             {SITE.socials.map((s) => (
               <li key={s.label}>
@@ -51,13 +51,13 @@ export function SiteFooter() {
       </div>
       <div className="shell foot-bottom">
         <nav aria-label="Legal">
-          <Link to="/privacy">Privacy</Link>
-          <Link to="/prayer">Prayer and counselling</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/account">Members</Link>
+          <Link to="/privacy">{t.footer.legalPrivacy}</Link>
+          <Link to="/prayer">{t.footer.legalPrayer}</Link>
+          <Link to="/contact">{t.footer.legalContact}</Link>
+          <Link to="/account">{t.footer.legalMembers}</Link>
         </nav>
         <span className="foot-madeby">
-          © {new Date().getFullYear()} {SITE.fullName} · Created by{" "}
+          © {new Date().getFullYear()} {t.footer.copyright} · {t.footer.createdBy}{" "}
           <a href="https://genfeel.com" target="_blank" rel="noopener noreferrer">
             genfeel
           </a>

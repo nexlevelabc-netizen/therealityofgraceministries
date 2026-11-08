@@ -1,4 +1,7 @@
 import { Link } from "react-router";
+import { fill, useLang } from "@/i18n";
+
+type ConsentContext = keyof ReturnType<typeof useLang>["t"]["consent"]["contexts"];
 
 export function PrivacyConsent({
   checked,
@@ -7,8 +10,9 @@ export function PrivacyConsent({
 }: {
   checked: boolean;
   onChange: (v: boolean) => void;
-  context: string;
+  context: ConsentContext;
 }) {
+  const { t } = useLang();
   return (
     <label className="consent" style={{ cursor: "pointer" }}>
       <input
@@ -18,9 +22,8 @@ export function PrivacyConsent({
         aria-describedby="consent-copy"
       />
       <p id="consent-copy">
-        I have read and agree to the <Link to="/privacy">privacy statement</Link>. I understand
-        that the details I share here are used only to respond to my {context}, are kept
-        confidential within the ministry team, and are never sold or shared outside it.
+        {t.consent.prefix} <Link to="/privacy">{t.consent.link}</Link>.{" "}
+        {fill(t.consent.suffix, { context: t.consent.contexts[context] })}
       </p>
     </label>
   );

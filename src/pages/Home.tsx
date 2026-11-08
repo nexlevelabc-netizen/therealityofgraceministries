@@ -1,10 +1,30 @@
 import { Link } from "react-router";
 import { MaskedLines } from "@/components/PageHero";
 import { trpc } from "@/providers/trpc";
-import { GATHERING_RHYTHM, GIVE_FUNDS, LANGUAGES, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
+import { useLang } from "@/i18n";
 
 export default function Home() {
+  const { t, locale } = useLang();
   const gatherings = trpc.events.upcoming.useQuery({ limit: 3 });
+
+  const rhythm = [
+    { name: t.visit.r1t, note: t.visit.r1b, meta: t.visit.r1m },
+    { name: t.visit.r2t, note: t.visit.r2b, meta: t.visit.r2m },
+    { name: t.visit.r3t, note: t.visit.r3b, meta: t.visit.r3m },
+  ];
+
+  const funds = [
+    t.funds.tithes,
+    t.funds.offerings,
+    t.funds.kingdom,
+    t.funds.compassion,
+  ];
+
+  const fmtDate = (d: Date) =>
+    d.toLocaleDateString(locale, { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/London" });
+  const fmtTime = (d: Date) =>
+    d.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" });
 
   return (
     <>
@@ -20,30 +40,23 @@ export default function Home() {
           <div className="hero__row">
             <h1 className="display-hero hero__title">
               <MaskedLines
-                lines={[
-                  <>Grace is</>,
-                  <>
-                    <em>a reality</em>
-                  </>,
-                  <>for real life.</>,
-                ]}
+                lines={t.home.heroTitle.map((p, i) =>
+                  p.i ? <em key={i}>{p.t}</em> : <span key={i}>{p.t}</span>
+                )}
               />
             </h1>
           </div>
           <div className="hero__row hero__row--offset">
             <div className="hero__meta">
-              <span className="minititle">The Reality of Grace Ministries Int'l</span>
-              <p>
-                One family across nations and languages, gathering in person and online, learning
-                to live inside the finished work of Christ.
-              </p>
+              <span className="minititle">{t.home.heroKicker}</span>
+              <p>{t.home.heroMeta}</p>
             </div>
             <div className="hero__actions">
               <Link to="/visit" className="btn btn--on-dark">
-                Plan your first visit
+                {t.home.heroVisit}
               </Link>
               <Link to="/live" className="btn btn--ghost-dark">
-                Watch this Sunday live
+                {t.home.heroLive}
               </Link>
             </div>
           </div>
@@ -54,15 +67,14 @@ export default function Home() {
       <section className="section">
         <div className="shell">
           <span className="minititle" data-reveal>
-            Why we exist
+            {t.home.whyKicker}
           </span>
           <p className="statement" style={{ marginTop: "1.8rem", maxWidth: "26ch" }} data-reveal>
-            We exist so that ordinary people can meet an extraordinary God, in a language they
-            understand, inside <em>a family that stays</em>.
+            {t.home.statementA} <em>{t.home.statementEm}</em>.
           </p>
           <div style={{ marginTop: "2.4rem" }} data-reveal>
             <Link to="/about" className="tlink">
-              The story of the house
+              {t.home.storyLink}
             </Link>
           </div>
         </div>
@@ -74,70 +86,60 @@ export default function Home() {
           <div className="split split--lean-r" style={{ alignItems: "end", marginBottom: "3.5rem" }}>
             <div>
               <span className="minititle" data-reveal>
-                Life together
+                {t.home.doorsKicker}
               </span>
               <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-                Three doors into the house
+                {t.home.doorsTitle}
               </h2>
             </div>
             <p className="body-copy" data-reveal>
-              There is no wrong way in. Come as you are, bring your questions, and grow at the
-              pace grace sets for you.
+              {t.home.doorsIntro}
             </p>
           </div>
 
           <div className="grid-3">
             <article data-reveal>
               <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/hero-worship.jpg" alt="Hands raised in worship during a Sunday celebration" loading="lazy" />
+                <img src="/img/hero-worship.jpg" alt={t.home.door1Alt} loading="lazy" />
               </div>
-              <p className="figure-caption">01 · Gather</p>
+              <p className="figure-caption">{t.home.door1Tag}</p>
               <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                Sundays that feel like home
+                {t.home.door1Title}
               </h3>
-              <p className="body-copy">
-                Whole hearted worship, the word taught with clarity, and translation on screen so
-                no one is left outside the moment.
-              </p>
+              <p className="body-copy">{t.home.door1Body}</p>
               <p style={{ marginTop: "1.2rem" }}>
                 <Link to="/gatherings" className="tlink">
-                  See the rhythm of the week
+                  {t.home.door1Link}
                 </Link>
               </p>
             </article>
             <article data-reveal style={{ ["--reveal-delay" as string]: "0.12s" }}>
               <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/hero-word.jpg" alt="Open hands resting on an open bible in warm light" loading="lazy" />
+                <img src="/img/hero-word.jpg" alt={t.home.door2Alt} loading="lazy" />
               </div>
-              <p className="figure-caption">02 · Grow</p>
+              <p className="figure-caption">{t.home.door2Tag}</p>
               <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                Roots that go deep
+                {t.home.door2Title}
               </h3>
-              <p className="body-copy">
-                Midweek teaching, grace groups in homes, and discipleship that turns belief into
-                everyday character.
-              </p>
+              <p className="body-copy">{t.home.door2Body}</p>
               <p style={{ marginTop: "1.2rem" }}>
                 <Link to="/believe" className="tlink">
-                  What anchors us
+                  {t.home.door2Link}
                 </Link>
               </p>
             </article>
             <article data-reveal style={{ ["--reveal-delay" as string]: "0.24s" }}>
               <div className="figure" data-parallax style={{ aspectRatio: "4 / 5" }}>
-                <img src="/img/community.jpg" alt="The church family sharing a meal together" loading="lazy" />
+                <img src="/img/community.jpg" alt={t.home.door3Alt} loading="lazy" />
               </div>
-              <p className="figure-caption">03 · Go</p>
+              <p className="figure-caption">{t.home.door3Tag}</p>
               <h3 className="display-3" style={{ margin: "0.5rem 0 0.8rem" }}>
-                Love with its sleeves rolled up
+                {t.home.door3Title}
               </h3>
-              <p className="body-copy">
-                Food on tables, visits to the lonely, and practical help for neighbours who never
-                asked for a sermon, only a friend.
-              </p>
+              <p className="body-copy">{t.home.door3Body}</p>
               <p style={{ marginTop: "1.2rem" }}>
                 <Link to="/contact" className="tlink">
-                  Serve with us
+                  {t.home.door3Link}
                 </Link>
               </p>
             </article>
@@ -150,19 +152,20 @@ export default function Home() {
         <div className="shell split split--lean-l" style={{ alignItems: "center" }}>
           <div>
             <span className="minititle" data-reveal>
-              Church without borders
+              {t.home.liveKicker}
             </span>
             <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-              Wherever you are, <em className="serif-italic" style={{ color: "var(--gold-bright)" }}>the service reaches you</em>
+              {t.home.liveTitleA}{" "}
+              <em className="serif-italic" style={{ color: "var(--gold-bright)" }}>
+                {t.home.liveTitleEm}
+              </em>
             </h2>
             <p className="body-copy" style={{ marginTop: "1.4rem" }} data-reveal>
-              Every gathering streams live with on screen translation in{" "}
-              {LANGUAGES.filter((l) => l.code !== "en").map((l) => l.label).join(", ")} and
-              English, so distance and language never decide who belongs.
+              {t.home.liveBody}
             </p>
             <div style={{ marginTop: "2rem", display: "flex", gap: "0.9rem", flexWrap: "wrap" }} data-reveal>
               <Link to="/live" className="btn btn--gold">
-                Enter the live room
+                {t.home.liveCta}
               </Link>
               <a
                 href={SITE.socials[0].href}
@@ -170,12 +173,12 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="btn btn--ghost-dark"
               >
-                Past services on YouTube
+                {t.home.liveArchive}
               </a>
             </div>
           </div>
           <div className="figure" data-parallax style={{ aspectRatio: "16 / 11" }} data-reveal>
-            <img src="/img/live.jpg" alt="The stage during a live service with warm lighting" loading="lazy" />
+            <img src="/img/live.jpg" alt={t.home.liveAlt} loading="lazy" />
           </div>
         </div>
       </section>
@@ -186,16 +189,16 @@ export default function Home() {
           <div className="split split--lean-r" style={{ alignItems: "end", marginBottom: "2.4rem" }}>
             <div>
               <span className="minititle" data-reveal>
-                This week and next
+                {t.home.weekKicker}
               </span>
               <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-                Come and sit with us
+                {t.home.weekTitle}
               </h2>
             </div>
             <div data-reveal>
-              {GATHERING_RHYTHM.slice(0, 3).map((g) => (
-                <p key={g.day} className="body-copy" style={{ marginBottom: "0.2rem" }}>
-                  {g.day} · {g.time} · {g.name}
+              {rhythm.map((g) => (
+                <p key={g.name} className="body-copy" style={{ marginBottom: "0.2rem" }}>
+                  {g.meta} · {g.name}
                 </p>
               ))}
             </div>
@@ -209,35 +212,26 @@ export default function Home() {
                       {e.description ? <p className="body-copy">{e.description}</p> : null}
                     </div>
                     <p className="rowline__meta">
-                      {new Date(e.startsAt).toLocaleDateString("en-GB", {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                      })}
+                      {fmtDate(new Date(e.startsAt))}
                       {" · "}
-                      {new Date(e.startsAt).toLocaleTimeString("en-GB", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {fmtTime(new Date(e.startsAt))}
                       {e.location ? ` · ${e.location}` : ""}
                     </p>
                   </div>
                 ))
-              : GATHERING_RHYTHM.map((g) => (
-                  <div className="rowline" key={g.day} data-reveal>
+              : rhythm.map((g) => (
+                  <div className="rowline" key={g.name} data-reveal>
                     <div>
                       <p className="rowline__title">{g.name}</p>
                       <p className="body-copy">{g.note}</p>
                     </div>
-                    <p className="rowline__meta">
-                      {g.day} · {g.time}
-                    </p>
+                    <p className="rowline__meta">{g.meta}</p>
                   </div>
                 ))}
           </div>
           <div style={{ marginTop: "2.2rem" }} data-reveal>
             <Link to="/gatherings" className="tlink">
-              The full calendar
+              {t.home.weekLink}
             </Link>
           </div>
         </div>
@@ -248,22 +242,21 @@ export default function Home() {
         <div className="shell">
           <div className="split split--lean-l" style={{ alignItems: "center" }}>
             <div className="figure" data-parallax style={{ aspectRatio: "5 / 4" }} data-reveal>
-              <img src="/img/giving.jpg" alt="An offering being placed into a basket in warm light" loading="lazy" />
+              <img src="/img/giving.jpg" alt={t.home.giveAlt} loading="lazy" />
             </div>
             <div>
               <span className="minititle" data-reveal>
-                Generosity
+                {t.home.giveKicker}
               </span>
               <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-                Sow into what outlives you
+                {t.home.giveTitle}
               </h2>
               <p className="body-copy" style={{ marginTop: "1.4rem" }} data-reveal>
-                Every gift keeps the doors open, the stream running, the translation flowing and
-                the food parcels moving. Choose where your seed goes.
+                {t.home.giveBody}
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: "1.6rem 0 0", display: "grid", gap: "0.9rem" }}>
-                {GIVE_FUNDS.map((f) => (
-                  <li key={f.id} data-reveal style={{ borderTop: "1px solid var(--line)", paddingTop: "0.9rem" }}>
+                {funds.map((f) => (
+                  <li key={f.label} data-reveal style={{ borderTop: "1px solid var(--line)", paddingTop: "0.9rem" }}>
                     <b className="font-display" style={{ fontSize: "1.25rem", fontWeight: 500 }}>
                       {f.label}
                     </b>
@@ -273,7 +266,7 @@ export default function Home() {
               </ul>
               <div style={{ marginTop: "2rem" }} data-reveal>
                 <Link to="/give" className="btn">
-                  Give with purpose
+                  {t.home.giveCta}
                 </Link>
               </div>
             </div>
@@ -285,19 +278,18 @@ export default function Home() {
       <section className="band-wine section--tight">
         <div className="shell" style={{ textAlign: "center" }}>
           <h2 className="display-2" data-reveal>
-            You never have to carry it alone
+            {t.home.prayerTitle}
           </h2>
           <p
             className="lede"
             style={{ margin: "1.4rem auto 0", maxWidth: "44ch", color: "rgba(248,245,239,0.85)" }}
             data-reveal
           >
-            Our companions respond in seven languages, day and night, and every request is held in
-            confidence before God.
+            {t.home.prayerBody}
           </p>
           <div style={{ marginTop: "2.2rem" }} data-reveal>
             <Link to="/prayer" className="btn btn--on-dark">
-              Talk to someone now
+              {t.home.prayerCta}
             </Link>
           </div>
         </div>

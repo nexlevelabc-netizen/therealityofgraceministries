@@ -6,6 +6,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
+import { ChatWidget } from "./ChatWidget";
+import { LangProvider } from "@/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,9 +49,27 @@ export function Layout({ children }: { children: ReactNode }) {
       },
       { threshold: 0.18 }
     );
-    document.querySelectorAll("[data-reveal], .mask-line").forEach((el) => {
-      if (!el.classList.contains("is-in")) observer.observe(el);
+    const scan = (root: ParentNode) => {
+      root.querySelectorAll("[data-reveal], .mask-line").forEach((el) => {
+        if (!el.classList.contains("is-in")) observer.observe(el);
+      });
+    };
+    scan(document);
+
+    /* content that mounts after the route scan (async query results) still reveals */
+    const mo = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        m.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+          const el = node as Element;
+          if (el.matches?.("[data-reveal], .mask-line") && !el.classList.contains("is-in")) {
+            observer.observe(el);
+          }
+          scan(el);
+        });
+      }
     });
+    mo.observe(document.body, { childList: true, subtree: true });
 
     let triggers: ScrollTrigger[] = [];
     if (!reduceMotion()) {
@@ -70,13 +90,14 @@ export function Layout({ children }: { children: ReactNode }) {
     }
 
     return () => {
+      mo.disconnect();
       observer.disconnect();
       triggers.forEach((t) => t.kill());
     };
   }, [location.pathname]);
 
   return (
-    <>
+    <LangProvider>
       <a
         href="#main"
         className="tlink"
@@ -97,6 +118,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
-    </>
+      <ChatWidget />
+    </LangProvider>
   );
 }

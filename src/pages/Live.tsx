@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { LANGUAGES, SITE, type LanguageCode } from "@/lib/site";
+import { useLang } from "@/i18n";
 
 export default function Live() {
+  const { t } = useLang();
   const [lang, setLang] = useState<LanguageCode>("en");
 
   const embedUrl = useMemo(() => {
@@ -22,14 +24,16 @@ export default function Live() {
       <section className="band-dark" style={{ paddingTop: "clamp(8rem, 14vw, 11rem)" }}>
         <div className="shell section--tight" style={{ paddingBottom: "clamp(3rem, 6vw, 5rem)" }}>
           <span className="minititle" data-reveal>
-            The live room
+            {t.live.kicker}
           </span>
           <h1 className="display-hero" style={{ marginTop: "1.4rem", fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
-            Church, <em className="serif-italic" style={{ color: "var(--gold-bright)" }}>wherever you are</em>
+            {t.live.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--gold-bright)" }}>
+              {t.live.titleEm}
+            </em>
           </h1>
           <p className="lede" style={{ marginTop: "1.6rem", maxWidth: "36ch" }} data-reveal>
-            When we are live, the player below carries the service. When we are not, it rests until
-            the next gathering.
+            {t.live.intro}
           </p>
 
           <div style={{ marginTop: "2.4rem" }} data-reveal>
@@ -42,9 +46,9 @@ export default function Live() {
                 marginBottom: "0.9rem",
               }}
             >
-              Choose your caption language
+              {t.live.chooseLang}
             </p>
-            <div className="lang-row" role="group" aria-label="Caption language">
+            <div className="lang-row" role="group" aria-label={t.live.chooseLang}>
               {LANGUAGES.map((l) => (
                 <button
                   key={l.code}
@@ -60,8 +64,7 @@ export default function Live() {
               ))}
             </div>
             <p style={{ marginTop: "0.9rem", fontSize: "0.85rem", color: "rgba(248,245,239,0.6)", maxWidth: "52ch" }}>
-              Captions open automatically in your chosen language once the stream begins. Switch
-              language at any time and the player will reload with it.
+              {t.live.captionNote}
             </p>
           </div>
 
@@ -69,7 +72,7 @@ export default function Live() {
             <iframe
               key={lang}
               src={embedUrl}
-              title="The Reality of Grace Ministries live stream"
+              title={t.live.playerTitle}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
@@ -81,26 +84,25 @@ export default function Live() {
         <div className="shell split split--lean-r" style={{ alignItems: "center" }}>
           <div>
             <span className="minititle" data-reveal>
-              Missed it live
+              {t.live.archiveKicker}
             </span>
             <h2 className="display-2" style={{ marginTop: "1.2rem" }} data-reveal>
-              The archive never closes
+              {t.live.archiveTitle}
             </h2>
             <p className="body-copy" style={{ marginTop: "1.4rem" }} data-reveal>
-              Every service stays on our YouTube channel, free to revisit, share, or send to
-              someone who needs it.
+              {t.live.archiveBody}
             </p>
             <div style={{ marginTop: "2rem", display: "flex", gap: "1.6rem", flexWrap: "wrap" }} data-reveal>
               <a href={SITE.socials[0].href} target="_blank" rel="noopener noreferrer" className="tlink">
-                Open the YouTube archive
+                {t.live.archiveLink}
               </a>
               <Link to="/gatherings" className="tlink">
-                When we gather next
+                {t.live.nextLink}
               </Link>
             </div>
           </div>
           <div className="figure" data-parallax style={{ aspectRatio: "16 / 11" }} data-reveal>
-            <img src="/img/live.jpg" alt="The stage during a live service" loading="lazy" />
+            <img src="/img/live.jpg" alt={t.live.archiveAlt} loading="lazy" />
           </div>
         </div>
       </section>

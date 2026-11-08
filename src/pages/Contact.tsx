@@ -4,16 +4,12 @@ import { PageHero } from "@/components/PageHero";
 import { PrivacyConsent } from "@/components/PrivacyConsent";
 import { trpc } from "@/providers/trpc";
 import { SITE } from "@/lib/site";
+import { fill, useLang } from "@/i18n";
 
-const TOPICS = [
-  { id: "general", label: "A general question" },
-  { id: "serve", label: "I want to serve" },
-  { id: "testimony", label: "Share a testimony" },
-  { id: "media", label: "Media and streaming" },
-  { id: "other", label: "Something else" },
-];
+const TOPIC_IDS = ["general", "serve", "testimony", "media", "other"] as const;
 
 export default function Contact() {
+  const { t } = useLang();
   const [form, setForm] = useState({ name: "", email: "", topic: "general", message: "" });
   const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
@@ -28,13 +24,16 @@ export default function Contact() {
   return (
     <>
       <PageHero
-        kicker="Contact"
+        kicker={t.contact.kicker}
         title={
           <>
-            Start the <em className="serif-italic" style={{ color: "var(--wine)" }}>conversation</em>
+            {t.contact.titleA}{" "}
+            <em className="serif-italic" style={{ color: "var(--wine)" }}>
+              {t.contact.titleEm}
+            </em>
           </>
         }
-        intro="A real person reads every message, usually within a day. Choose whichever door suits you."
+        intro={t.contact.intro}
       />
 
       <section className="section--tight">
@@ -42,25 +41,25 @@ export default function Contact() {
           <div>
             <div style={{ display: "grid", gap: "2rem" }}>
               <div data-reveal>
-                <span className="minititle">Call</span>
+                <span className="minititle">{t.contact.callKicker}</span>
                 <p className="font-display" style={{ fontSize: "1.8rem", marginTop: "0.8rem" }}>
                   <a href={SITE.phoneHref} style={{ color: "var(--ink)", textDecoration: "none" }}>
                     {SITE.phoneDisplay}
                   </a>
                 </p>
-                <p className="body-copy">Weekdays and around every gathering.</p>
+                <p className="body-copy">{t.contact.callNote}</p>
               </div>
               <div data-reveal>
-                <span className="minititle">Write</span>
+                <span className="minititle">{t.contact.writeKicker}</span>
                 <p className="font-display" style={{ fontSize: "1.25rem", marginTop: "0.8rem", wordBreak: "break-word" }}>
                   <a href={`mailto:${SITE.email}`} style={{ color: "var(--ink)", textDecoration: "none" }}>
                     {SITE.email}
                   </a>
                 </p>
-                <p className="body-copy">Messages from the form below land here too, automatically.</p>
+                <p className="body-copy">{t.contact.writeNote}</p>
               </div>
               <div data-reveal>
-                <span className="minititle">Follow</span>
+                <span className="minititle">{t.contact.followKicker}</span>
                 <ul style={{ listStyle: "none", padding: 0, marginTop: "0.8rem", display: "grid", gap: "0.5rem" }}>
                   {SITE.socials.map((s) => (
                     <li key={s.label}>
@@ -78,67 +77,65 @@ export default function Contact() {
             {sent ? (
               <div className="toast-note">
                 <b className="font-display" style={{ fontSize: "1.3rem" }}>
-                  Your message is on its way.
+                  {t.contact.doneTitle}
                 </b>
-                <p style={{ marginTop: "0.4rem" }}>
-                  It has been delivered to the ministry inbox and someone will reply to you soon.
-                </p>
+                <p style={{ marginTop: "0.4rem" }}>{t.contact.doneBody}</p>
               </div>
             ) : (
               <form onSubmit={onSubmit} style={{ display: "grid", gap: "1.6rem" }}>
                 <div className="field">
-                  <label htmlFor="c-name">Your name</label>
+                  <label htmlFor="c-name">{t.contact.nameLabel}</label>
                   <input
                     id="c-name"
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="What should we call you?"
+                    placeholder={t.contact.namePh}
                   />
                 </div>
                 <div className="field">
-                  <label htmlFor="c-email">Email</label>
+                  <label htmlFor="c-email">{t.contact.emailLabel}</label>
                   <input
                     id="c-email"
                     type="email"
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="Where should the reply go?"
+                    placeholder={t.contact.emailPh}
                   />
                 </div>
                 <div className="field">
-                  <label htmlFor="c-topic">This is about</label>
+                  <label htmlFor="c-topic">{t.contact.topicLabel}</label>
                   <select
                     id="c-topic"
                     value={form.topic}
                     onChange={(e) => setForm({ ...form, topic: e.target.value })}
                   >
-                    {TOPICS.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.label}
+                    {TOPIC_IDS.map((id) => (
+                      <option key={id} value={id}>
+                        {t.contact.topics[id]}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div className="field">
-                  <label htmlFor="c-msg">Your message</label>
+                  <label htmlFor="c-msg">{t.contact.msgLabel}</label>
                   <textarea
                     id="c-msg"
                     required
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Take your time"
+                    placeholder={t.contact.msgPh}
                   />
                 </div>
                 <PrivacyConsent checked={consent} onChange={setConsent} context="message" />
                 <div>
                   <button type="submit" className="btn" disabled={!consent || submit.isPending}>
-                    {submit.isPending ? "Sending" : "Send it to the team"}
+                    {submit.isPending ? t.contact.sending : t.contact.submit}
                   </button>
                   {submit.isError ? (
                     <p className="toast-note toast-note--error" style={{ marginTop: "1rem" }}>
-                      That did not send. Please try again, or email {SITE.email} directly.
+                      {fill(t.contact.errorBody)}
                     </p>
                   ) : null}
                 </div>

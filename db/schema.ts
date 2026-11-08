@@ -36,6 +36,8 @@ export const events = mysqlTable("events", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   startsAt: timestamp("startsAt").notNull(),
+  frequency: mysqlEnum("frequency", ["daily", "weekly", "monthly"]).default("weekly").notNull(),
+  cadence: varchar("cadence", { length: 255 }),
   location: varchar("location", { length: 255 }),
   streamUrl: varchar("streamUrl", { length: 512 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
