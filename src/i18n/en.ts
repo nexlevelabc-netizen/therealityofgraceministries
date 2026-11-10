@@ -230,7 +230,7 @@ export const en = {
     titleA: "Church,",
     titleEm: "wherever you are",
     intro:
-      "When we are live, the player below carries the service. When we are not, it rests until the next gathering.",
+      "During our gatherings the player below carries the service live. Between gatherings it shows our latest messages, so there is always something to watch.",
     chooseLang: "Choose your caption language",
     captionNote:
       "Captions open automatically in your chosen language once the stream begins. Switch language at any time and the player will reload with it.",

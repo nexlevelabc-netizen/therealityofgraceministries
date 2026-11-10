@@ -38,7 +38,13 @@ export const streamRouter = createRouter({
     // HLS origin such as Mux, Cloudflare Stream or a self hosted server),
     // STREAM_HLS_URL carries the playback URL and the site plays it directly.
     const hlsUrl = process.env.STREAM_HLS_URL?.trim() || null;
-    return { hlsUrl };
+    // YOUTUBE_LIVE_VIDEO_ID pins the player to one specific YouTube broadcast
+    // (the video id from the watch URL). Use it for scheduled premieres or
+    // when the channel default live view should not be shown. When it is
+    // empty, the player falls back to the channel live view while live and
+    // to the latest uploads playlist otherwise.
+    const youtubeVideoId = process.env.YOUTUBE_LIVE_VIDEO_ID?.trim() || null;
+    return { hlsUrl, youtubeVideoId };
   }),
 });
 

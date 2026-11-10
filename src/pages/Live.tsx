@@ -39,11 +39,38 @@ function OwnStreamPlayer({ src, title }: { src: string; title: string }) {
   );
 }
 
+/* Gathering windows in London time: the channel live view is only worth
+   showing when a service is plausibly on air. */
+const WINDOWS: { day: number; start: number; end: number }[] = [
+  { day: 0, start: 9.25, end: 14 }, // Sunday celebration
+  { day: 3, start: 18.25, end: 22 }, // Wednesday word and prayer
+  { day: 5, start: 18.75, end: 23.5 }, // Friday grace groups and nights of grace
+  { day: 6, start: 10.25, end: 14 }, // Saturday outreach
+];
+
+function isGatheringWindow() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/London",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  }).formatToParts(now);
+  const dayName = parts.find((p) => p.type === "weekday")?.value ?? "";
+  const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(dayName.slice(0, 3));
+  const hour = Number(parts.find((p) => p.type === "hour")?.value ?? 0);
+  const minute = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+  const t = hour + minute / 60;
+  return WINDOWS.some((w) => w.day === day && t >= w.start && t <= w.end);
+}
+
 export default function Live() {
   const { t } = useLang();
   const [lang, setLang] = useState<LanguageCode>("en");
   const streamConfig = trpc.stream.config.useQuery();
   const ownHls = streamConfig.data?.hlsUrl ?? null;
+  const pinnedVideo = streamConfig.data?.youtubeVideoId ?? null;
 
   const embedUrl = useMemo(() => {
     const cc = LANGUAGES.find((l) => l.code === lang)?.cc ?? "en";
@@ -54,8 +81,18 @@ export default function Live() {
       cc_lang_pref: cc,
       hl: cc,
     });
-    return `https://www.youtube.com/embed/live_stream?channel=${SITE.youtubeChannelId}&${params.toString()}`;
-  }, [lang]);
+    if (pinnedVideo) {
+      return `https://www.youtube.com/embed/${pinnedVideo}?${params.toString()}`;
+    }
+    // Channel live view when broadcasting. Between gatherings YouTube shows
+    // an error there, so the player rests on the latest uploads instead.
+    if (isGatheringWindow()) {
+      return `https://www.youtube.com/embed/live_stream?channel=${SITE.youtubeChannelId}&${params.toString()}`;
+    }
+    params.set("listType", "playlist");
+    params.set("list", `UU${SITE.youtubeChannelId.slice(2)}`);
+    return `https://www.youtube.com/embed?${params.toString()}`;
+  }, [lang, pinnedVideo]);
 
   return (
     <>

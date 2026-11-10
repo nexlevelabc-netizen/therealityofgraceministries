@@ -41,6 +41,8 @@ services:
         sync: false
       - key: STREAM_HLS_URL
         sync: false
+      - key: YOUTUBE_LIVE_VIDEO_ID
+        sync: false
       - key: CHAT_AI_BASE_URL
         sync: false
       - key: CHAT_AI_API_KEY

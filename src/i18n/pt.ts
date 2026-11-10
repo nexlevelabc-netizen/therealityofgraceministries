@@ -227,7 +227,7 @@ const dict: Dict = {
     "kicker": "A sala ao vivo",
     "titleA": "Igreja,",
     "titleEm": "onde quer que esteja",
-    "intro": "Quando estamos ao vivo, o leitor abaixo transmite o culto. Quando não estamos, repousa até à próxima reunião.",
+    "intro": "Durante as nossas reuniões, o leitor abaixo transmite o culto ao vivo. Entre reuniões mostra as nossas mensagens mais recentes, para haver sempre algo para ver.",
     "chooseLang": "Escolha o idioma das legendas",
     "captionNote": "As legendas abrem automaticamente no idioma escolhido assim que a transmissão começa. Mude de idioma a qualquer momento e o leitor recarrega com ele.",
     "playerTitle": "Transmissão ao vivo da The Reality of Grace Ministries",

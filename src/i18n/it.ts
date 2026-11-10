@@ -227,7 +227,7 @@ const dict: Dict = {
     "kicker": "La sala live",
     "titleA": "Chiesa,",
     "titleEm": "ovunque tu sia",
-    "intro": "Quando siamo in diretta, il player qui sotto porta il culto da te. Quando non lo siamo, riposa fino al prossimo raduno.",
+    "intro": "Durante i nostri raduni, il player qui sotto porta il culto in diretta. Tra un raduno e l'altro mostra i nostri ultimi messaggi, così c'è sempre qualcosa da guardare.",
     "chooseLang": "Scegli la lingua dei sottotitoli",
     "captionNote": "I sottotitoli si aprono automaticamente nella lingua scelta all'inizio della trasmissione. Puoi cambiare lingua in qualsiasi momento e il player si ricaricherà.",
     "playerTitle": "Diretta di The Reality of Grace Ministries",

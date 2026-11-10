@@ -227,7 +227,7 @@ const dict: Dict = {
     "kicker": "直播室",
     "titleA": "教会，",
     "titleEm": "就在您所在之处",
-    "intro": "直播时，下方播放器会传送聚会实况；未直播时，它静候下一次相聚。",
+    "intro": "聚会期间，下方播放器会直播聚会实况；聚会之间则播放我们最近的信息，随时都有内容可以观看。",
     "chooseLang": "选择您的字幕语言",
     "captionNote": "直播开始后，字幕会自动以您选择的语言开启。随时切换语言，播放器会随之重新加载。",
     "playerTitle": "The Reality of Grace Ministries 直播",
