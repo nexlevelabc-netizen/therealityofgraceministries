@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { gsap } from "gsap";
 import { MaskedLines } from "@/components/PageHero";
+import { NoticeRail } from "@/components/NoticeRail";
 import { trpc } from "@/providers/trpc";
 import { SITE } from "@/lib/site";
 import { useLang } from "@/i18n";
@@ -59,6 +60,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ---------- floating notice rail ---------- */}
+      <NoticeRail />
 
       {/* ---------- statement ---------- */}
       <section className="section">

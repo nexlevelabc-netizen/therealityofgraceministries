@@ -13,22 +13,24 @@ const GLYPHS: Record<string, string> = {
 
 type Tone = "dark" | "light";
 
-export function SocialIcons({ tone = "light", withLabels = false }: { tone?: Tone; withLabels?: boolean }) {
+export function SocialIcons({ tone = "light", withLabels = true }: { tone?: Tone; withLabels?: boolean }) {
   return (
-    <ul className={`soc-row soc-row--${tone}${withLabels ? " soc-row--labels" : ""}`}>
+    <ul className={`soc-row soc-row--${tone}`}>
       {SITE.socials.map((s) => (
         <li key={s.label}>
           <a
-            className="soc"
+            className={`soc soc--${s.label.toLowerCase()}`}
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${SITE.fullName} on ${s.label}`}
             title={s.label}
           >
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-              <path d={GLYPHS[s.label] ?? ""} fill="currentColor" />
-            </svg>
+            <span className="soc__badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="17" height="17" focusable="false">
+                <path d={GLYPHS[s.label] ?? ""} fill="currentColor" />
+              </svg>
+            </span>
             {withLabels ? <span className="soc__label">{s.label}</span> : null}
           </a>
         </li>

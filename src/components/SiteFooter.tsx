@@ -33,7 +33,7 @@ export function SiteFooter() {
         </div>
         <div className="foot-col">
           <h4>{t.footer.connect}</h4>
-          <SocialIcons tone="dark" />
+          <SocialIcons tone="dark" withLabels />
           <ul style={{ marginTop: "1.1rem" }}>
             <li>
               <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
