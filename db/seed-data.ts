@@ -104,3 +104,40 @@ export function buildEventSeeds(): EventSeed[] {
     },
   ];
 }
+
+/* Ministries seeded on a fresh database. The church team edits these from
+   /admin; the SIFF entry is a placeholder until the ministry supplies its own
+   description. */
+export function buildMinistrySeeds() {
+  return [
+    {
+      name: "SIFF",
+      slug: "siff",
+      summary:
+        "One of the ministries of the house. The full introduction from the ministry team is on its way.",
+      body: "SIFF is part of the life of The Reality of Grace Ministries Int'l. Ask any of the team on a Sunday and they will gladly tell you more, or write to us through the contact page.",
+      sortOrder: 0,
+    },
+    {
+      name: "Worship and Media",
+      slug: "worship-media",
+      summary: "The sound, the songs and the screens that carry every gathering, in the room and online.",
+      body: "From the live stream to the translation on screen, this team makes sure distance and language never decide who belongs.",
+      sortOrder: 1,
+    },
+    {
+      name: "Grace Groups",
+      slug: "grace-groups",
+      summary: "Smaller circles meeting in homes across the city during the week.",
+      body: "Grace Groups are where the church becomes family: food, prayer, the word and honest friendship around tables across the city.",
+      sortOrder: 2,
+    },
+    {
+      name: "Compassion and Outreach",
+      slug: "compassion-outreach",
+      summary: "Food, shelter and practical help for our neighbours, every week.",
+      body: "The compassion fund and the outreach team put grace into work boots, serving our neighbours in practical ways all year round.",
+      sortOrder: 3,
+    },
+  ];
+}

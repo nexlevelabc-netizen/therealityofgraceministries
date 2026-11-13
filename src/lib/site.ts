@@ -49,3 +49,27 @@ export const GIVE_FUNDS = [
   { id: "kingdom", label: "Kingdom Projects", blurb: "Building, media and mission work across nations" },
   { id: "compassion", label: "Compassion", blurb: "Food, shelter and practical help for our neighbours" },
 ] as const;
+
+/* The needs the teaching library is organised around. Labels live in the
+   i18n files under library.topics. */
+export const MESSAGE_TOPICS = [
+  "faith",
+  "healing",
+  "family",
+  "finances",
+  "prayer",
+  "purpose",
+  "grace",
+  "identity",
+] as const;
+
+export type MessageTopic = (typeof MESSAGE_TOPICS)[number];
+
+/* Pulls a YouTube video id out of any common YouTube link shape, or accepts
+   a bare eleven character id pasted directly. */
+export function parseYouTubeId(raw: string): string | null {
+  const s = raw.trim();
+  if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+  const m = s.match(/(?:youtube\.com\/(?:watch\?[^#]*v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m?.[1] ?? null;
+}

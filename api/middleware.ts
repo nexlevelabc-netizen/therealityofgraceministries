@@ -60,3 +60,14 @@ function requireRole(role: string) {
 
 export const authedQuery = t.procedure.use(requireAuth);
 export const adminQuery = authedQuery.use(requireRole("admin"));
+
+/* Site team admin (cookie session from /api/admin/login), independent of the
+   member sign in system above. */
+const requireSiteAdmin = t.middleware(async (opts) => {
+  const { ctx, next } = opts;
+  if (!ctx.isAdmin) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Admin sign in required" });
+  }
+  return next({ ctx });
+});
+export const siteAdminProcedure = t.procedure.use(requireSiteAdmin);

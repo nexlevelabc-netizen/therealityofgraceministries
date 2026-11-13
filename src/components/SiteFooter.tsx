@@ -19,6 +19,8 @@ export function SiteFooter() {
             <li><Link to="/visit">{t.footer.firstVisit}</Link></li>
             <li><Link to="/gatherings">{t.footer.gatherings}</Link></li>
             <li><Link to="/live">{t.footer.watchLive}</Link></li>
+            <li><Link to="/messages">{t.footer.messages}</Link></li>
+            <li><Link to="/ministries">{t.footer.ministries}</Link></li>
             <li><Link to="/believe">{t.footer.believe}</Link></li>
             <li><Link to="/give">{t.footer.give}</Link></li>
           </ul>

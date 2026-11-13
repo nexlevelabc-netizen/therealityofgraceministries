@@ -1781,3 +1781,398 @@ img {
     font-size: 0.85rem;
   }
 }
+
+/* ---------- message library ---------- */
+.msg-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  margin-top: 2.6rem;
+}
+.msg-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.msg-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-strong);
+  box-shadow: 0 1.4rem 3rem rgba(34, 6, 15, 0.12);
+}
+.msg-card__figure {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--wine-ink);
+  overflow: hidden;
+}
+.msg-card__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.msg-card:hover .msg-card__figure img {
+  transform: scale(1.04);
+}
+.msg-card__audio {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  border: 1px solid rgba(226, 197, 124, 0.4);
+  margin: 1.2rem;
+  border-radius: 0.7rem;
+}
+.msg-card__flag {
+  position: absolute;
+  inset-inline-start: 0.9rem;
+  top: 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--wine-ink);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+}
+.msg-card__body {
+  padding: 1.3rem 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.msg-card__meta {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.msg-card__title {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.msg-card__scripture {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--wine);
+}
+.msg-card__topics {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* message of the month */
+.mom-card {
+  display: grid;
+  gap: 2.2rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+@media (min-width: 900px) {
+  .mom-card {
+    grid-template-columns: 1.15fr 1fr;
+  }
+}
+.mom-card__figure {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: rgba(248, 245, 239, 0.08);
+  border: 1px solid rgba(226, 197, 124, 0.28);
+}
+.mom-card__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* library controls */
+.lib-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+}
+.lib-search {
+  flex: 1 1 18rem;
+  max-width: 26rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--cream);
+  color: var(--ink);
+}
+.lib-search:focus {
+  outline: 2px solid var(--wine);
+  outline-offset: 1px;
+}
+.lib-sort {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.lib-empty {
+  text-align: center;
+  padding: clamp(3rem, 7vw, 5.5rem) 1rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: 1.2rem;
+  margin-top: 2rem;
+}
+
+/* audio only message page */
+.audio-frame {
+  border: 1px solid var(--line);
+  background: var(--cream);
+  border-radius: 1.1rem;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+/* ---------- ministries page ---------- */
+.min-row {
+  display: grid;
+  gap: 2.2rem;
+  align-items: center;
+  padding-block: clamp(2.4rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+.min-row:last-child {
+  border-bottom: none;
+}
+@media (min-width: 900px) {
+  .min-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  .min-row--flip .min-row__figure {
+    order: 2;
+  }
+}
+.min-row__figure {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: var(--wine-ink);
+}
+.min-row__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.min-row__initial {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 7rem);
+  color: var(--gold-bright);
+}
+
+/* ---------- leadership grid ---------- */
+.lead-people {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+.lead-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  padding: 1.8rem 1.6rem 2rem;
+  text-align: center;
+}
+.lead-card__photo {
+  display: block;
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 auto 1.2rem;
+  border: 2px solid var(--gold);
+}
+.lead-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.lead-card__initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wine);
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+}
+.lead-card__name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+.lead-card__role {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wine);
+  margin-top: 0.4rem;
+}
+.lead-card__bio {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 0.9rem;
+}
+
+/* ---------- church office (admin) ---------- */
+.adm-grid {
+  display: grid;
+  gap: 3rem;
+}
+@media (min-width: 1000px) {
+  .adm-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.adm-form {
+  display: grid;
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+.adm-field {
+  display: grid;
+  gap: 0.45rem;
+}
+.adm-field > span {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.adm-field input,
+.adm-field textarea,
+.adm-field select {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--line-strong);
+  background: var(--cream);
+  color: var(--ink);
+  width: 100%;
+}
+.adm-field input:focus,
+.adm-field textarea:focus,
+.adm-field select:focus {
+  outline: 2px solid var(--wine);
+  outline-offset: 1px;
+}
+.adm-pair {
+  display: grid;
+  gap: 1.2rem;
+}
+@media (min-width: 640px) {
+  .adm-pair {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.adm-check {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+.adm-check input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--wine);
+}
+.adm-list {
+  list-style: none;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+}
+.adm-list > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  border-radius: 0.8rem;
+  padding: 1rem 1.2rem;
+}
+.adm-list strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.adm-list span {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 0.25rem;
+}
+.adm-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.adm-note {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--wine);
+}
+.adm-error {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: hsl(var(--destructive));
+}
+.adm-body {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+  white-space: pre-wrap;
+}

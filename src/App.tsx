@@ -5,6 +5,10 @@ import About from "./pages/About";
 import Visit from "./pages/Visit";
 import Gatherings from "./pages/Gatherings";
 import Live from "./pages/Live";
+import Messages from "./pages/Messages";
+import MessageDetail from "./pages/MessageDetail";
+import Ministries from "./pages/Ministries";
+import Admin from "./pages/Admin";
 import Give from "./pages/Give";
 import Believe from "./pages/Believe";
 import Prayer from "./pages/Prayer";
@@ -23,6 +27,10 @@ export default function App() {
         <Route path="/visit" element={<Visit />} />
         <Route path="/gatherings" element={<Gatherings />} />
         <Route path="/live" element={<Live />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/messages/:id" element={<MessageDetail />} />
+        <Route path="/ministries" element={<Ministries />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/give" element={<Give />} />
         <Route path="/believe" element={<Believe />} />
         <Route path="/prayer" element={<Prayer />} />

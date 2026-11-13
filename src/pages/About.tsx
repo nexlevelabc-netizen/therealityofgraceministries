@@ -1,9 +1,11 @@
 import { Link } from "react-router";
 import { PageHero } from "@/components/PageHero";
 import { useLang } from "@/i18n";
+import { trpc } from "@/providers/trpc";
 
 export default function About() {
   const { t } = useLang();
+  const leaders = trpc.leaders.list.useQuery();
 
   const values = [
     { n: "01", title: t.about.v1t, body: t.about.v1b },
@@ -102,6 +104,24 @@ export default function About() {
             </div>
           </div>
         </div>
+        {(leaders.data ?? []).length > 0 && (
+          <div className="lead-people" style={{ marginTop: "4rem" }}>
+            {(leaders.data ?? []).map((leader, i) => (
+              <article className="lead-card" key={leader.id} data-reveal style={{ ["--reveal-delay" as string]: `${(i % 4) * 0.08}s` }}>
+                {leader.photoMediaId ? (
+                  <span className="lead-card__photo">
+                    <img src={`/api/media/${leader.photoMediaId}`} alt={leader.name} loading="lazy" />
+                  </span>
+                ) : (
+                  <span className="lead-card__photo lead-card__initial">{leader.name.charAt(0)}</span>
+                )}
+                <h3 className="lead-card__name">{leader.name}</h3>
+                {leader.role && <p className="lead-card__role">{leader.role}</p>}
+                {leader.bio && <p className="lead-card__bio">{leader.bio}</p>}
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

@@ -90,3 +90,74 @@ export const contactMessages = pgTable("contact_messages", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type ContactMessage = typeof contactMessages.$inferSelect;
+
+/* ---------- media library (audio uploads and photographs) ---------- */
+
+export const mediaFiles = pgTable("media_files", {
+  id: serial("id").primaryKey(),
+  filename: varchar("filename", { length: 255 }).notNull(),
+  mime: varchar("mime", { length: 128 }).notNull(),
+  sizeBytes: integer("sizeBytes").notNull(),
+  data: text("data").notNull(), // base64 payload; served via /api/media/:id
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type MediaFile = typeof mediaFiles.$inferSelect;
+
+/* ---------- teaching library ---------- */
+
+export const messages = pgTable("messages", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  speaker: varchar("speaker", { length: 255 }),
+  scripture: varchar("scripture", { length: 255 }),
+  series: varchar("series", { length: 255 }),
+  preachedAt: timestamp("preachedAt").notNull(),
+  topics: text("topics").array().default([]).notNull(),
+  youtubeId: varchar("youtubeId", { length: 32 }),
+  audioMediaId: integer("audioMediaId"),
+  featured: boolean("featured").default(false).notNull(),
+  messageOfMonth: boolean("messageOfMonth").default(false).notNull(),
+  views: integer("views").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt")
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+export type Message = typeof messages.$inferSelect;
+
+/* ---------- ministries ---------- */
+
+export const ministries = pgTable("ministries", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 128 }).notNull().unique(),
+  summary: text("summary"),
+  body: text("body"),
+  photoMediaId: integer("photoMediaId"),
+  sortOrder: integer("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt")
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+export type Ministry = typeof ministries.$inferSelect;
+
+/* ---------- leadership ---------- */
+
+export const leaders = pgTable("leaders", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  role: varchar("role", { length: 255 }),
+  bio: text("bio"),
+  photoMediaId: integer("photoMediaId"),
+  sortOrder: integer("sortOrder").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt")
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => new Date()),
+});
+export type Leader = typeof leaders.$inferSelect;

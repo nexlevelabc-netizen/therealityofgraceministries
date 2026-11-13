@@ -48,6 +48,8 @@ export function SiteHeader() {
     { to: "/visit", label: t.nav.visit },
     { to: "/gatherings", label: t.nav.gatherings },
     { to: "/live", label: t.nav.live },
+    { to: "/messages", label: t.nav.messages },
+    { to: "/ministries", label: t.nav.ministries },
     { to: "/believe", label: t.nav.believe },
     { to: "/prayer", label: t.nav.prayer },
     { to: "/contact", label: t.nav.contact },

@@ -9,6 +9,7 @@ import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "@contracts/constants";
 import { log } from "./lib/logger";
 import { chatRoutes } from "./routes/chat";
+import { adminRoutes, mediaRoutes } from "./routes/admin";
 import { handleClientLog } from "./lib/clientlog";
 import { REQUEST_ID_HEADER, runWithRequestId } from "./lib/requestcontext";
 
@@ -79,6 +80,8 @@ app.post(
   handleClientLog,
 );
 app.route("/api/chat", chatRoutes);
+app.route("/api/admin", adminRoutes);
+app.route("/api/media", mediaRoutes);
 app.get("/api/health", (c) => c.json({ ok: true }));
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
 
