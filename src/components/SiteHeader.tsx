@@ -67,7 +67,7 @@ export function SiteHeader() {
       >
         <div className="shell--wide head-bar" style={{ marginInline: "auto" }}>
           <Link to="/" className="brand" aria-label={`${t.brand.name} ${t.brand.suffix}`}>
-            <img src="/brand/logo-mark.png" alt="" width={42} height={22} />
+            <img src="/brand/logo-mark.png" alt="" width={58} height={30} />
             <span className="brand-word">
               <b>{t.brand.name}</b>
               <small>{t.brand.suffix}</small>
@@ -110,7 +110,7 @@ export function SiteHeader() {
       >
         <div className="menu-overlay__top">
           <Link to="/" className="brand" aria-label={`${t.brand.name} ${t.brand.suffix}`}>
-            <img src="/brand/logo-mark.png" alt="" width={42} height={22} />
+            <img src="/brand/logo-mark.png" alt="" width={58} height={30} />
             <span className="brand-word">
               <b style={{ color: "var(--cream)" }}>{t.brand.name}</b>
               <small>{t.brand.suffix}</small>
