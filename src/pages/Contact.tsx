@@ -62,7 +62,7 @@ export default function Contact() {
               <div data-reveal>
                 <span className="minititle">{t.contact.followKicker}</span>
                 <div style={{ marginTop: "0.9rem" }}>
-                  <SocialIcons tone="light" withLabels />
+                  <SocialIcons tone="light" />
                 </div>
               </div>
             </div>
@@ -77,7 +77,16 @@ export default function Contact() {
                 <p style={{ marginTop: "0.4rem" }}>{t.contact.doneBody}</p>
               </div>
             ) : (
-              <form onSubmit={onSubmit} style={{ display: "grid", gap: "1.6rem" }}>
+              <form
+                onSubmit={onSubmit}
+                style={{
+                  display: "grid",
+                  gap: "1.6rem",
+                  border: "1px solid var(--line)",
+                  padding: "clamp(1.4rem, 3vw, 2.4rem)",
+                  background: "var(--cream)",
+                }}
+              >
                 <div className="field">
                   <label htmlFor="c-name">{t.contact.nameLabel}</label>
                   <input
