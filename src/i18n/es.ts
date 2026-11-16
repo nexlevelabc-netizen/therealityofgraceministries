@@ -314,7 +314,14 @@ const dict: Dict = {
     "bankNote": "El código de sucursal y el número de cuenta se confirman por correo electrónico por seguridad.",
     "bankRef": "Referencia: {reference}",
     "giveAgain": "Donar de nuevo",
-    "viewGiving": "Ver mis donativos"
+    "viewGiving": "Ver mis donativos",
+    "waysKicker": "Formas de dar",
+    "wayOnlineTitle": "En línea",
+    "wayOnlineBody": "Da de forma segura aquí mismo con tarjeta o débito bancario. Elige un fondo abajo y tu donativo llega al ministerio de inmediato.",
+    "wayBankTitle": "Transferencia bancaria",
+    "wayBankBody": "Configura una orden permanente o una transferencia única. Comienza abajo y te enviaremos por correo los datos de la cuenta y una referencia.",
+    "wayPersonTitle": "En persona",
+    "wayPersonBody": "Las ofrendas se reciben durante cada reunión dominical y entre semana. Pregunta a cualquiera del equipo de bienvenida y con gusto te ayudarán."
   },
   "believe": {
     "kicker": "Lo que creemos",
