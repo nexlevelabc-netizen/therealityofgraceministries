@@ -314,7 +314,14 @@ const dict: Dict = {
     "bankNote": "出于安全考虑，排序代码和账号将通过电子邮件确认。",
     "bankRef": "参考编号：{reference}",
     "giveAgain": "再次奉献",
-    "viewGiving": "查看我的奉献"
+    "viewGiving": "查看我的奉献",
+    "waysKicker": "奉献方式",
+    "wayOnlineTitle": "在线奉献",
+    "wayOnlineBody": "在此通过银行卡或银行扣款安全奉献。在下方选择一个基金,您的奉献将立即送达事工。",
+    "wayBankTitle": "银行转账",
+    "wayBankBody": "设置定期转账或一次性转账。在下方开始,我们会通过电子邮件发送账户信息和参考编号。",
+    "wayPersonTitle": "现场奉献",
+    "wayPersonBody": "每个主日和平日聚会都会接收奉献。请咨询接待团队的任何成员,他们很乐意帮助您。",
   },
   "believe": {
     "kicker": "我们的信仰",

@@ -314,7 +314,14 @@ const dict: Dict = {
     "bankNote": "O código de identificação e o número da conta são confirmados por e-mail por segurança.",
     "bankRef": "Referência: {reference}",
     "giveAgain": "Ofertar novamente",
-    "viewGiving": "Ver as minhas ofertas"
+    "viewGiving": "Ver as minhas ofertas",
+    "waysKicker": "Formas de dar",
+    "wayOnlineTitle": "Online",
+    "wayOnlineBody": "Dê com segurança aqui mesmo por cartão ou débito bancário. Escolha um fundo abaixo e a sua oferta chega ao ministério de imediato.",
+    "wayBankTitle": "Transferência bancária",
+    "wayBankBody": "Configure uma ordem permanente ou uma transferência única. Comece abaixo e enviaremos por email os dados da conta e uma referência.",
+    "wayPersonTitle": "Pessoalmente",
+    "wayPersonBody": "As ofertas são recebidas em cada reunião de domingo e durante a semana. Pergunte a qualquer pessoa da equipe de boas-vindas e terão prazer em ajudar.",
   },
   "believe": {
     "kicker": "No que cremos",

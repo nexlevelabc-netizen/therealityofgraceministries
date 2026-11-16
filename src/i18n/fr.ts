@@ -314,7 +314,14 @@ const dict: Dict = {
     "bankNote": "Le code de tri et le numéro de compte sont confirmés par e-mail pour des raisons de sécurité.",
     "bankRef": "Référence : {reference}",
     "giveAgain": "Donner à nouveau",
-    "viewGiving": "Voir mes dons"
+    "viewGiving": "Voir mes dons",
+    "waysKicker": "Façons de donner",
+    "wayOnlineTitle": "En ligne",
+    "wayOnlineBody": "Donnez en toute sécurité ici par carte ou prélèvement bancaire. Choisissez un fonds ci dessous et votre don parvient immédiatement au ministère.",
+    "wayBankTitle": "Virement bancaire",
+    "wayBankBody": "Mettez en place un virement permanent ou un virement unique. Commencez ci dessous et nous vous enverrons par email les coordonnées du compte et une référence.",
+    "wayPersonTitle": "En personne",
+    "wayPersonBody": "Les offrandes sont reçues lors de chaque réunion du dimanche et de la semaine. Demandez à n'importe quel membre de l'équipe d'accueil et ils vous aideront avec plaisir.",
   },
   "believe": {
     "kicker": "Ce que nous croyons",

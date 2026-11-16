@@ -314,7 +314,14 @@ const dict: Dict = {
     "bankNote": "Codice di ordinazione e numero di conto sono confermati via email per sicurezza.",
     "bankRef": "Riferimento: {reference}",
     "giveAgain": "Dona ancora",
-    "viewGiving": "Vedi le mie donazioni"
+    "viewGiving": "Vedi le mie donazioni",
+    "waysKicker": "Modi per donare",
+    "wayOnlineTitle": "Online",
+    "wayOnlineBody": "Dona in modo sicuro qui con carta o addebito bancario. Scegli un fondo qui sotto e la tua donazione arriva subito al ministero.",
+    "wayBankTitle": "Bonifico bancario",
+    "wayBankBody": "Imposta un ordine permanente o un bonifico singolo. Inizia qui sotto e ti invieremo per email i dati del conto e un riferimento.",
+    "wayPersonTitle": "Di persona",
+    "wayPersonBody": "Le offerte si raccolgono durante ogni riunione domenicale e infrasettimanale. Chiedi a chiunque del team di accoglienza e ti aiuteranno volentieri.",
   },
   "believe": {
     "kicker": "Cosa crediamo",
