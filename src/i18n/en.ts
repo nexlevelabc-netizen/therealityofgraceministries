@@ -327,6 +327,13 @@ export const en = {
     bankRef: "Reference: {reference}",
     giveAgain: "Give again",
     viewGiving: "View my giving",
+    waysKicker: "Ways to give",
+    wayOnlineTitle: "Online",
+    wayOnlineBody: "Give securely right here by card or bank debit. Choose a fund below and your gift reaches the ministry straight away.",
+    wayBankTitle: "Bank transfer",
+    wayBankBody: "Set up a standing order or a one off transfer. Start below and we will email you the account details and a reference.",
+    wayPersonTitle: "In person",
+    wayPersonBody: "Offerings are received during every Sunday and midweek gathering. Ask any of the welcome team and they will gladly help.",
   },
   believe: {
     kicker: "What we believe",
