@@ -13,9 +13,9 @@ const GLYPHS: Record<string, string> = {
 
 type Tone = "dark" | "light";
 
-export function SocialIcons({ tone = "light", withLabels = true }: { tone?: Tone; withLabels?: boolean }) {
+export function SocialIcons({ tone = "light", withLabels = false }: { tone?: Tone; withLabels?: boolean }) {
   return (
-    <ul className={`soc-row soc-row--${tone}`}>
+    <ul className={`soc-row soc-row--${tone}${withLabels ? " soc-row--labels" : ""}`}>
       {SITE.socials.map((s) => (
         <li key={s.label}>
           <a
@@ -27,7 +27,7 @@ export function SocialIcons({ tone = "light", withLabels = true }: { tone?: Tone
             title={s.label}
           >
             <span className="soc__badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="17" height="17" focusable="false">
+              <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
                 <path d={GLYPHS[s.label] ?? ""} fill="currentColor" />
               </svg>
             </span>
