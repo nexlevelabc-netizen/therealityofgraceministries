@@ -65,7 +65,7 @@ export default function Give() {
             {t.give.doneTitle}
           </h1>
           <p className="body-copy" style={{ margin: "1.4rem auto 0" }}>
-            {fill(t.give.doneBody, { reference, email: email || "\u2026" })}
+            {fill(t.give.doneBody, { reference, email: email || "…" })}
           </p>
           <div className="toast-note" style={{ marginTop: "2rem", textAlign: "left" }}>
             <p style={{ fontSize: "0.72rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.6rem" }}>
@@ -211,7 +211,7 @@ export default function Give() {
                         setCustom("");
                       }}
                     >
-                      \u00a3{a}
+                      £{a}
                     </button>
                   ))}
                 </div>
