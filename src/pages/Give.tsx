@@ -65,7 +65,7 @@ export default function Give() {
             {t.give.doneTitle}
           </h1>
           <p className="body-copy" style={{ margin: "1.4rem auto 0" }}>
-            {fill(t.give.doneBody, { reference, email: email || "…" })}
+            {fill(t.give.doneBody, { reference, email: email || "\u2026" })}
           </p>
           <div className="toast-note" style={{ marginTop: "2rem", textAlign: "left" }}>
             <p style={{ fontSize: "0.72rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.6rem" }}>
@@ -106,6 +106,50 @@ export default function Give() {
         }
         intro={t.give.intro}
       />
+
+      <section className="section--tight">
+        <div className="shell">
+          <span className="minititle" data-reveal>
+            {t.give.waysKicker}
+          </span>
+          <div className="ways-grid" style={{ marginTop: "1.8rem" }}>
+            <div className="way-card" data-reveal>
+              <span className="way-card__glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2" />
+                  <path d="M2 10h20" />
+                </svg>
+              </span>
+              <h3 className="font-display">{t.give.wayOnlineTitle}</h3>
+              <p>{t.give.wayOnlineBody}</p>
+            </div>
+            <div className="way-card" data-reveal>
+              <span className="way-card__glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 21h18" />
+                  <path d="M5 21V8l7-5 7 5v13" />
+                  <path d="M9 21v-6h6v6" />
+                </svg>
+              </span>
+              <h3 className="font-display">{t.give.wayBankTitle}</h3>
+              <p>{t.give.wayBankBody}</p>
+            </div>
+            <div className="way-card" data-reveal>
+              <span className="way-card__glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 12v8H4v-8" />
+                  <path d="M2 7h20v5H2z" />
+                  <path d="M12 7v13" />
+                  <path d="M12 7c-2 0-4-1.2-4-3 0-1.4 1.2-2.5 2.6-2C12 2.6 12 7 12 7z" />
+                  <path d="M12 7c2 0 4-1.2 4-3 0-1.4-1.2-2.5-2.6-2C12 2.6 12 7 12 7z" />
+                </svg>
+              </span>
+              <h3 className="font-display">{t.give.wayPersonTitle}</h3>
+              <p>{t.give.wayPersonBody}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="section--tight">
           <div className="shell split split--lean-r" style={{ alignItems: "start" }}>
@@ -167,7 +211,7 @@ export default function Give() {
                         setCustom("");
                       }}
                     >
-                      £{a}
+                      \u00a3{a}
                     </button>
                   ))}
                 </div>
