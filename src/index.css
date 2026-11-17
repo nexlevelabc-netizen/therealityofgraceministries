@@ -1,3 +1,13 @@
+/* Spoodbrush display script, matching the portalshousesouthend.com reference.
+   Baked from fonts/spoodbrush parts into public/fonts by scripts/bakefonts.mjs. */
+@font-face {
+  font-family: "Spoodbrush";
+  src: url("/fonts/spoodbrush.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,7 +16,8 @@
    The Reality of Grace Ministries Int'l · design system
    Warm heritage palette drawn from the ministry mark:
    deep wine, soft gold, warm cream.
-   Type: EB Garamond (display serif) + Jost (functional sans).
+   Type: Spoodbrush (display script) + Montserrat (functional sans),
+   the same pairing used by the Potter's House reference site.
    ============================================================ */
 
 :root {
@@ -46,8 +57,8 @@
   --line: rgba(51, 18, 30, 0.16);
   --line-strong: rgba(51, 18, 30, 0.34);
 
-  --font-display: "EB Garamond", "Noto Serif SC", "Songti SC", "Noto Naskh Arabic", "Times New Roman", serif;
-  --font-sans: "Jost", "Noto Sans SC", "PingFang SC", "Noto Naskh Arabic", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Spoodbrush", "Noto Serif SC", "Songti SC", "Noto Naskh Arabic", "Times New Roman", serif;
+  --font-sans: "Montserrat", "Noto Sans SC", "PingFang SC", "Noto Naskh Arabic", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -1583,7 +1594,7 @@ img {
   position: absolute;
   inset-inline-start: 1.1rem;
   bottom: 0.4rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(3.4rem, 6vw, 5.2rem);
   line-height: 1;
   color: var(--cream);
@@ -1592,7 +1603,7 @@ img {
   pointer-events: none;
 }
 .doors-card__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(1.7rem, 2.6vw, 2.4rem);
   line-height: 1.08;
   margin: 0.55rem 0 0.8rem;
@@ -1695,7 +1706,7 @@ img {
   gap: 0.55rem;
 }
 .soc__label {
-  font-family: "Jost", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1756,7 +1767,7 @@ img {
   box-shadow: 0 16px 38px rgba(34, 6, 15, 0.18);
 }
 .notice__kicker {
-  font-family: "Jost", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1787,7 +1798,7 @@ img {
   border-inline-start: 1px solid rgba(125, 21, 56, 0.25);
   padding: 0.15rem 0.6rem 0.15rem 0.9rem;
   background: transparent;
-  font-family: "Jost", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
