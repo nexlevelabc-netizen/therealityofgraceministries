@@ -37,24 +37,7 @@ export function ChatWidget() {
   const [greeting, setGreeting] = useState("");
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [available, setAvailable] = useState<boolean | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  /* hide the bubble entirely on deployments with no AI provider configured */
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/chat/status")
-      .then((r) => (r.ok ? r.json() : { available: false }))
-      .then((d) => {
-        if (!cancelled) setAvailable(Boolean(d?.available));
-      })
-      .catch(() => {
-        if (!cancelled) setAvailable(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   /* greeting per language, fetched so it is natively phrased */
   useEffect(() => {
@@ -154,8 +137,6 @@ export function ChatWidget() {
       setBusy(false);
     }
   };
-
-  if (!available) return null;
 
   return (
     <>

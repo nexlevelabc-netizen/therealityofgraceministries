@@ -37,6 +37,28 @@ const TOPIC_GUIDANCE: Record<string, string> = {
   newhere: "The person is new and curious about the church. Welcome them warmly and explain they can visit any Sunday or watch online.",
 };
 
+/* When no AI provider is configured the companion still answers warmly and
+   points people to the pastoral team, so the widget never feels broken. */
+const FALLBACK_GREETING: Record<string, string> = {
+  en: "Peace be with you. I am here to pray with you, to listen, and to help you find counsel. What is on your heart today?",
+  es: "La paz sea contigo. Estoy aquí para orar contigo, escucharte y ayudarte a encontrar consejo. ¿Qué llevas en tu corazón hoy?",
+  it: "La pace sia con te. Sono qui per pregare con te, ascoltarti e aiutarti a trovare consiglio. Cosa hai nel cuore oggi?",
+  pt: "A paz esteja contigo. Estou aqui para orar contigo, ouvir-te e ajudar-te a encontrar conselho. O que está no teu coração hoje?",
+  ar: "السلام معك. أنا هنا لأصلّي معك، وأنصت إليك، وأساعدك في إيجاد المشورة. ما الذي في قلبك اليوم؟",
+  zh: "愿平安与你同在。我在这里为你代祷、倾听，并帮你找到辅导。今天你心里有什么事？",
+  fr: "Que la paix soit avec vous. Je suis là pour prier avec vous, vous écouter et vous aider à trouver conseil. Qu'y a-t-il sur votre cœur aujourd'hui ?",
+};
+
+const FALLBACK_REPLY: Record<string, string> = {
+  en: "Thank you for sharing this with me. I have heard you, and I would love for our pastors to pray over this with you. Please leave a request using the link below, or call us on 07908 407744 and a real person will pray with you.",
+  es: "Gracias por compartirlo conmigo. Te he escuchado, y me encantaría que nuestros pastores oren por esto contigo. Deja tu petición con el enlace de abajo, o llámanos al 07908 407744 y una persona real orará contigo.",
+  it: "Grazie per averlo condiviso con me. Ti ho ascoltato, e mi piacerebbe che i nostri pastori pregassero per questo con te. Lascia una richiesta con il link qui sotto, oppure chiamaci al 07908 407744 e una persona vera pregherà con te.",
+  pt: "Obrigado por partilhares isto comigo. Ouvi-te, e gostaria que os nossos pastores orassem sobre isto contigo. Deixa um pedido no link abaixo, ou liga para 07908 407744 e uma pessoa real orará contigo.",
+  ar: "شكراً لأنك شاركتني هذا. لقد سمعتك، ويسعدني أن يصلّي رعاتنا من أجل هذا معك. اترك طلباً عبر الرابط أدناه، أو اتصل بنا على 07908 407744 وسيصلّي معك شخص حقيقي.",
+  zh: "谢谢你与我分享。我已经听到了，也很愿意让我们的牧者与你一起为此祷告。请通过下方链接留下请求，或致电 07908 407744，会有真人与你一起祷告。",
+  fr: "Merci de l'avoir partagé avec moi. Je vous ai entendu, et j'aimerais que nos pasteurs prient pour cela avec vous. Laissez une demande avec le lien ci dessous, ou appelez le 07908 407744 et une vraie personne priera avec vous.",
+};
+
 chatRoutes.get("/status", (c) => {
   const available = Boolean(
     (process.env.KIMI_AGENTGW_BASE_URL && process.env.KIMI_AGENTGW_API_KEY) ||
@@ -109,8 +131,12 @@ chatRoutes.post("/", async (c) => {
       });
       model = custom(customModel);
     } else {
-      log.warn("chat unavailable: no AI provider configured");
-      return c.json({ error: "The companion is unavailable right now" }, 503);
+      log.warn("chat: no AI provider configured, serving pastoral fallback");
+      const langKey = payload.language ?? "en";
+      const text = payload.greet
+        ? (FALLBACK_GREETING[langKey] ?? FALLBACK_GREETING.en)
+        : (FALLBACK_REPLY[langKey] ?? FALLBACK_REPLY.en);
+      return c.body(text, 200, { "Content-Type": "text/plain; charset=utf-8" });
     }
 
     const result = streamText({
