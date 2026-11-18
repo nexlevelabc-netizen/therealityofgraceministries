@@ -1,13 +1,3 @@
-/* Spoodbrush display script, matching the portalshousesouthend.com reference.
-   Baked from fonts/spoodbrush parts into public/fonts by scripts/bakefonts.mjs. */
-@font-face {
-  font-family: "Spoodbrush";
-  src: url("/fonts/spoodbrush.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,8 +6,8 @@
    The Reality of Grace Ministries Int'l · design system
    Warm heritage palette drawn from the ministry mark:
    deep wine, soft gold, warm cream.
-   Type: Spoodbrush (display script) + Montserrat (functional sans),
-   the same pairing used by the Potter's House reference site.
+   Type: IBM Plex Sans (display) + Inter (functional sans),
+   the same pairing used by the coderfy.com reference site.
    ============================================================ */
 
 :root {
@@ -57,8 +47,8 @@
   --line: rgba(51, 18, 30, 0.16);
   --line-strong: rgba(51, 18, 30, 0.34);
 
-  --font-display: "Spoodbrush", "Noto Serif SC", "Songti SC", "Noto Naskh Arabic", "Times New Roman", serif;
-  --font-sans: "Montserrat", "Noto Sans SC", "PingFang SC", "Noto Naskh Arabic", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "IBM Plex Sans", "Noto Serif SC", "Songti SC", "Noto Naskh Arabic", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter", "Noto Sans SC", "PingFang SC", "Noto Naskh Arabic", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
