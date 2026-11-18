@@ -1,11 +1,21 @@
-/* Give page collage art (3D cartoon panels) */
+/* Give page collage art (3D cartoon panels, staggered arrangement) */
 .way-collage {
   display: grid;
-  gap: 1.6rem;
+  gap: 2.2rem;
 }
 @media (min-width: 900px) {
   .way-collage {
     grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+    align-items: start;
+  }
+  /* stagger: middle card drops down, side cards rise (hexagon feel) */
+  .way-collage__card:nth-child(2) {
+    margin-top: 4.5rem;
+  }
+  .way-collage__card:nth-child(1),
+  .way-collage__card:nth-child(3) {
+    margin-top: 0;
   }
 }
 .way-collage__card {
@@ -15,7 +25,7 @@
 }
 .way-collage__art {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: 1.1rem;
   border: 1px solid var(--line);
