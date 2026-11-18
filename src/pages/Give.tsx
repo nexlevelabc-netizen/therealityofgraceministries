@@ -114,36 +114,17 @@ export default function Give() {
           </span>
           <div className="ways-grid" style={{ marginTop: "1.8rem" }}>
             <div className="way-card" data-reveal>
-              <span className="way-card__glyph" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="5" width="20" height="14" rx="2" />
-                  <path d="M2 10h20" />
-                </svg>
-              </span>
+              <img className="way-card__art" src="/illustrations/give-online.png" alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayOnlineTitle}</h3>
               <p>{t.give.wayOnlineBody}</p>
             </div>
             <div className="way-card" data-reveal>
-              <span className="way-card__glyph" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 21h18" />
-                  <path d="M5 21V8l7-5 7 5v13" />
-                  <path d="M9 21v-6h6v6" />
-                </svg>
-              </span>
+              <img className="way-card__art" src="/illustrations/give-bank.png" alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayBankTitle}</h3>
               <p>{t.give.wayBankBody}</p>
             </div>
             <div className="way-card" data-reveal>
-              <span className="way-card__glyph" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 12v8H4v-8" />
-                  <path d="M2 7h20v5H2z" />
-                  <path d="M12 7v13" />
-                  <path d="M12 7c-2 0-4-1.2-4-3 0-1.4 1.2-2.5 2.6-2C12 2.6 12 7 12 7z" />
-                  <path d="M12 7c2 0 4-1.2 4-3 0-1.4-1.2-2.5-2.6-2C12 2.6 12 7 12 7z" />
-                </svg>
-              </span>
+              <img className="way-card__art" src="/illustrations/give-person.png" alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayPersonTitle}</h3>
               <p>{t.give.wayPersonBody}</p>
             </div>
