@@ -5,6 +5,10 @@ import { PageHero } from "@/components/PageHero";
 import { PrivacyConsent } from "@/components/PrivacyConsent";
 import { trpc } from "@/providers/trpc";
 import { fill, useLang } from "@/i18n";
+import { giveOnlineArt } from "@/assets/GiveOnlineArt";
+import { giveBankArt } from "@/assets/GiveBankArt";
+import { givePersonArt } from "@/assets/GivePersonArt";
+import "./give-collage.css";
 
 const AMOUNTS = [10, 25, 50, 100, 250];
 const FUND_IDS = ["tithes", "offerings", "kingdom", "compassion"] as const;
@@ -112,19 +116,19 @@ export default function Give() {
           <span className="minititle" data-reveal>
             {t.give.waysKicker}
           </span>
-          <div className="ways-grid" style={{ marginTop: "1.8rem" }}>
-            <div className="way-card" data-reveal>
-              <img className="way-card__art" src="/illustrations/give-online.png" alt="" loading="lazy" />
+          <div className="way-collage" style={{ marginTop: "1.8rem" }}>
+            <div className="way-collage__card" data-reveal>
+              <img className="way-collage__art" src={giveOnlineArt} alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayOnlineTitle}</h3>
               <p>{t.give.wayOnlineBody}</p>
             </div>
-            <div className="way-card" data-reveal>
-              <img className="way-card__art" src="/illustrations/give-bank.png" alt="" loading="lazy" />
+            <div className="way-collage__card" data-reveal>
+              <img className="way-collage__art" src={giveBankArt} alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayBankTitle}</h3>
               <p>{t.give.wayBankBody}</p>
             </div>
-            <div className="way-card" data-reveal>
-              <img className="way-card__art" src="/illustrations/give-person.png" alt="" loading="lazy" />
+            <div className="way-collage__card" data-reveal>
+              <img className="way-collage__art" src={givePersonArt} alt="" loading="lazy" />
               <h3 className="font-display">{t.give.wayPersonTitle}</h3>
               <p>{t.give.wayPersonBody}</p>
             </div>

@@ -1,0 +1,37 @@
+/* Give page collage art (3D cartoon panels) */
+.way-collage {
+  display: grid;
+  gap: 1.6rem;
+}
+@media (min-width: 900px) {
+  .way-collage {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.way-collage__card {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+.way-collage__art {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 1.1rem;
+  border: 1px solid var(--line);
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.way-collage__card:hover .way-collage__art {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(34, 6, 15, 0.14);
+}
+.way-collage__card h3 {
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+.way-collage__card p {
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
